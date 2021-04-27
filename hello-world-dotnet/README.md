@@ -1,11 +1,11 @@
-# Sample Function Python
+# Sample Function Dotnet
 
 ## Run on OpenFunction
 
 1. [Install OpenFunction](https://github.com/OpenFunction/OpenFunction#quickstart)
 2. [Run a function](https://github.com/OpenFunction/OpenFunction#sample-run-a-function)
 
-Definition of a ```Function``` for ```python``` is shown below:
+Definition of a ```Function``` for ```dotnet``` is shown below:
 
 > When having poor network connectivity to GitHub/Googleapis:
 >
@@ -15,16 +15,16 @@ Definition of a ```Function``` for ```python``` is shown below:
 apiVersion: core.openfunction.io/v1alpha1
 kind: Function
 metadata:
-  name: python-sample
+  name: dotnet-sample
 spec:
-  funcName: "hello_world"
+  funcName: "helloworld"
   funcType: "http"
   funcVersion: "v1.0.0"
   builder: "gcr.io/buildpacks/builder:v1"
   source:
     url: "https://github.com/OpenFunction/function-samples.git"
-    sourceSubPath: "hello-world-python"
-  image: "<your registry name>/sample-python-func:latest"
+    sourceSubPath: "hello-world-dotnet"
+  image: "<your registry name>/sample-dotnet-func:latest"
   registry:
     url: "https://index.docker.io/v1/"
     account:
