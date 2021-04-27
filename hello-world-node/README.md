@@ -1,20 +1,15 @@
 # Sample Function Node
 
-> When having poor network connectivity to GitHub/Googleapis:
->
-> Change ```gcr.io/buildpacks/builder``` to ```openfunction/buildpacks-builder:v1```
-
-## Run Locally with Buildpacks & Docker:
-```
-pack build --builder=gcr.io/buildpacks/builder hello-world-node
-```
-
-## Run on OpenFunction:
+## Run on OpenFunction
 
 1. [Install OpenFunction](https://github.com/OpenFunction/OpenFunction#quickstart)
 2. [Run a function](https://github.com/OpenFunction/OpenFunction#sample-run-a-function)
 
 Definition of a ```Function``` for ```node``` is shown below:
+
+> When having poor network connectivity to GitHub/Googleapis:
+>
+> Change ```gcr.io/buildpacks/builder``` to ```openfunction/buildpacks-builder:v1```
 
 ```yaml
 apiVersion: core.openfunction.io/v1alpha1
