@@ -13,19 +13,22 @@ kind: Function
 metadata:
   name: java-sample
 spec:
-  funcName: "com.openfunction.HelloWorld"
-  funcType: "http"
-  funcVersion: "v1.0.0"
-  builder: "openfunction/gcp-builder:v1"
-  source:
-    url: "https://github.com/OpenFunction/function-samples.git"
-    sourceSubPath: "hello-world-java"
+  version: "v1.0.0"
   image: "<your registry name>/sample-java-func:latest"
-  registry:
-    url: "https://index.docker.io/v1/"
-    account:
-      name: "basic-user-pass"
-      key: "username"
-  runtime: "Knative"
-  port: 8080
+  # port: 8080 # default to 8080
+  build:
+    builder: "openfunction/gcp-builder:v1"
+    params:
+      GOOGLE_FUNCTION_TARGET: "com.openfunction.HelloWorld"
+      GOOGLE_FUNCTION_SIGNATURE_TYPE: "http"
+    srcRepo:
+      url: "https://github.com/OpenFunction/function-samples.git"
+      sourceSubPath: "hello-world-java"
+    registry:
+      url: "https://index.docker.io/v1/"
+      account:
+        name: "basic-user-pass"
+        key: "username"
+  # serving:
+    # runtime: "Knative" # default to Knative
 ```
