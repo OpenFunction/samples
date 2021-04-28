@@ -7,10 +7,6 @@
 
 Definition of a ```Function``` for ```go``` is shown below:
 
-> When having poor network connectivity to GitHub/Googleapis:
->
-> Change ```gcr.io/buildpacks/builder``` to ```openfunction/buildpacks-builder:v1```
-
 ```yaml
 apiVersion: core.openfunction.io/v1alpha1
 kind: Function
@@ -20,7 +16,7 @@ spec:
   funcName: "HelloWorld"
   funcType: "http"
   funcVersion: "v1.0.0"
-  builder: "gcr.io/buildpacks/builder:v1"
+  builder: "openfunction/gcp-builder:v1"
   source:
     url: "https://github.com/OpenFunction/function-samples.git"
     sourceSubPath: "hello-world-go"
