@@ -7,29 +7,28 @@
 
 Definition of a ```Function``` for ```node``` is shown below:
 
-> When having poor network connectivity to GitHub/Googleapis:
->
-> Change ```gcr.io/buildpacks/builder``` to ```openfunction/buildpacks-builder:v1```
-
 ```yaml
 apiVersion: core.openfunction.io/v1alpha1
 kind: Function
 metadata:
   name: node-sample
 spec:
-  funcName: "helloWorld"
-  funcType: "http"
-  funcVersion: "v1.0.0"
-  builder: "gcr.io/buildpacks/builder:v1"
-  source:
-    url: "https://github.com/OpenFunction/function-samples.git"
-    sourceSubPath: "hello-world-node"
+  version: "v1.0.0"
   image: "<your registry name>/sample-node-func:latest"
-  registry:
-    url: "https://index.docker.io/v1/"
-    account:
-      name: "basic-user-pass"
-      key: "username"
-  runtime: "Knative"
-  port: 8080
+  # port: 8080 # default to 8080
+  build:
+    builder: "openfunction/gcp-builder:v1"
+    params:
+      GOOGLE_FUNCTION_TARGET: "helloWorld"
+      GOOGLE_FUNCTION_SIGNATURE_TYPE: "http"
+    srcRepo:
+      url: "https://github.com/OpenFunction/function-samples.git"
+      sourceSubPath: "hello-world-node"
+    registry:
+      url: "https://index.docker.io/v1/"
+      account:
+        name: "basic-user-pass"
+        key: "username"
+  # serving:
+    # runtime: "Knative" # default to Knative
 ```
