@@ -1,4 +1,4 @@
-module producer.go
+module example.com/producer
 
 go 1.15
 

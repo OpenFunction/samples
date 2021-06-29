@@ -25,7 +25,7 @@ const (
 
 var (
 	logger           = log.New(os.Stdout, "", 0)
-	pubSubName       string
+	pubSubName       = getEnvVar("PUBSUB_NAME", "autoscaling-pubsub")
 	numOfPublishers  = getEnvIntOrFail("NUMBER_OF_PUBLISHERS", "1")
 	publishFrequency = getEnvDurationOrFail("PUBLISHERS_FREQ", "1s")
 	publishDelay     = getEnvDurationOrFail("PUBLISHERS_DELAY", "10s")
@@ -37,7 +37,6 @@ func Producer(ctx *ofctx.OpenFunctionContext, in []byte) int {
 	if numOfPublishers < 1 {
 		numOfPublishers = 1
 	}
-	pubSubName = "msg"
 	logger.Printf("subscription name: %s", pubSubName)
 	logger.Printf("number of publishers: %d", numOfPublishers)
 	logger.Printf("publish frequency: %v", publishFrequency)
