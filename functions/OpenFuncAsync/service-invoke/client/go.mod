@@ -1,4 +1,4 @@
-module bindings
+module example.com/client
 
 go 1.15
 
