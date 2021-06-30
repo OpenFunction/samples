@@ -100,7 +100,7 @@ Modify the ``spec.image`` field in ``producer/function-producer.yaml`` and ``sub
       name: autoscaling-subscriber
     spec:
       image: "<your registry name>/autoscaling-subscriber:latest"
-      ```
+    ```
 
 Use the following commands to create these Functions:
 
@@ -109,6 +109,6 @@ kubectl apply -f producer/function-producer-sample.yaml
 kubectl apply -f subscriber/function-subscriber-sample.yaml
 ```
 
-Back in the initial terminal now, some 20-30 seconds after the `producer` starts, you should see the number of `subscriber` pods being adjusted by Keda based on the number of the `metric` topic:
+Back in the initial terminal now, some 20-30 seconds after the `producer` starts, you should see the number of `subscriber` pods being adjusted by Keda based on the number of the `metric` topic.
 
 
