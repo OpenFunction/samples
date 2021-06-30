@@ -1,4 +1,4 @@
-package main
+package subscriber
 
 import (
 	ofctx "github.com/OpenFunction/functions-framework-go/openfunction-context"
