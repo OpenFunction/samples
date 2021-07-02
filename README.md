@@ -8,12 +8,12 @@ We currently support two kinds of runtime, Knative and OpenFuncAsync.
 
 ### Knative runtime
 
-- ["Hello world" sample in go](functions/hello-world-go)
-- ["Hello world" sample in java](functions/hello-world-java)
-- ["Hello world" sample in python](functions/hello-world-python)
-- ["Hello world" sample in node](functions/hello-world-node)
-- ["Hello world" sample in dotnet](functions/hello-world-dotnet)
-- [Azure function sample](functions/azure-func-go)
+- ["Hello world" sample in go](functions/Knative/hello-world-go)
+- ["Hello world" sample in java](functions/Knative/hello-world-java)
+- ["Hello world" sample in python](functions/Knative/hello-world-python)
+- ["Hello world" sample in node](functions/Knative/hello-world-node)
+- ["Hello world" sample in dotnet](functions/Knative/hello-world-dotnet)
+- [Azure function sample](functions/Knative/azure-func-go)
 
 ### OpenFuncAsync runtime
 
