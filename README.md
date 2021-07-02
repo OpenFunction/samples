@@ -21,6 +21,10 @@ We currently support two kinds of runtime, Knative and OpenFuncAsync.
 - [OpenFuncAsync pubsub sample in go](functions/OpenFuncAsync/pubsub)
 - [OpenFuncAsync service-invoke sample in go](functions/OpenFuncAsync/service-invoke)
 
+## Application samples
+
+- [Java App](apps/sample-apps-java-maven.yaml)
+
 ## Functions-framework samples:
 
 The following are samples of OpenFunction functions-framework.
