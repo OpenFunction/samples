@@ -1,6 +1,7 @@
 package bindings
 
 import (
+	"encoding/json"
 	ofctx "github.com/OpenFunction/functions-framework-go/openfunction-context"
 	"log"
 )
@@ -12,10 +13,10 @@ func BindingsOutput(ctx *ofctx.OpenFunctionContext, in []byte) int {
 		greeting = in
 	} else {
 		log.Print("binding - Data: Received")
-		greeting = []byte("Hello")
+		greeting, _ = json.Marshal(map[string]string{"message": "Hello"})
 	}
 
-	err := ctx.SendTo(greeting, "echo")
+	err := ctx.SendTo(greeting, "sample-topic")
 	if err != nil {
 		log.Printf("Error: %v\n", err)
 		return 500

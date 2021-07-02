@@ -1,0 +1,42 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: bindings-goapp
+  labels:
+    app: bindingsgoapp
+spec:
+  selector:
+    app: bindingsgoapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bindings-goapp
+  labels:
+    app: bindingsgoapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bindingsgoapp
+  template:
+    metadata:
+      labels:
+        app: bindingsgoapp
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "bindings-goapp"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+        - name: go
+          image: openfunctiondev/bindings-output-goapp:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
