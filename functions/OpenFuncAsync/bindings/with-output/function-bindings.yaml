@@ -4,7 +4,7 @@ metadata:
   name: bindings-with-output
 spec:
   version: "v1.0.0"
-  image: zephyrfish/bindings-with-output:latest
+  image: openfunctiondev/bindings-with-output:latest
   build:
     builder: "openfunctiondev/go115-builder:v0.2.0"
     params:

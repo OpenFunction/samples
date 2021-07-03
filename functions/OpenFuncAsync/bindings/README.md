@@ -117,12 +117,6 @@ You will be able to see messages similar to the following:
 
 We will use the sample in the `with-output` directory, which will be triggered by Dapr's `bindings.cron` component at a frequency of once every 2 seconds. After being triggered, it will send a greeting to another service via Dapr's `bindings.kafka` component. 
 
-First we need to start the output target service. (Use `kubectl delete -f with-output/output/goapp.yaml` for cleaning.)
-
-```shell
-kubectl apply -f with-output/output/goapp.yaml
-```
-
 Modify the `spec.image` field in `without-output/function-bindings.yaml` to your own container registry address:
 
 ```yaml
@@ -153,6 +147,12 @@ You will be able to see messages similar to the following:
 2021/07/02 09:02:04 binding - Data: Received
 2021/07/02 09:02:06 binding - Data: Received
 2021/07/02 09:02:08 binding - Data: Received
+```
+
+Now we need to start the output target service. (Use `kubectl delete -f with-output/output/goapp.yaml` for cleaning.)
+
+```shell
+kubectl apply -f with-output/output/goapp.yaml
 ```
 
 Use command `kubectl logs -f $(kubectl get po -l app=bindingsgoapp -o jsonpath='{.items[0].metadata.name}') go` to observe the logs of output target service:
