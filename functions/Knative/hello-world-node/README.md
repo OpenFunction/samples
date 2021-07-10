@@ -23,7 +23,7 @@ spec:
       GOOGLE_FUNCTION_SIGNATURE_TYPE: "http"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/hello-world-node"
+      sourceSubPath: "functions/Knative/hello-world-node"
     registry:
       url: "https://index.docker.io/v1/"
       account:

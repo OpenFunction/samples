@@ -24,7 +24,7 @@ spec:
       # GOOGLE_FUNCTION_SOURCE: "main.py" # for python function
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/hello-world-python"
+      sourceSubPath: "functions/Knative/hello-world-python"
     registry:
       url: "https://index.docker.io/v1/"
       account:
