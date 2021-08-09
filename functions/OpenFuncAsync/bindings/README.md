@@ -62,20 +62,16 @@ kubectl -n kafka exec -it kafka-client -- kafka-topics \
     --if-not-exists
 ```
 
-In order to access your container registry, you need to create a secret. You can create this secret by editing the ``username`` and ``password`` fields in following command, and then run it.
+Generate a secret to access your container registry, such as one on [Docker Hub](https://hub.docker.com/) or [Quay.io](https://quay.io/).
+You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER`` and ``REGISTRY_PASSWORD`` fields in following command, and then run it.
 
-```shell
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: basic-user-pass
-type: kubernetes.io/basic-auth
-stringData:
-  username: <USERNAME>
-  password: <PASSWORD>
-EOF
-```
+  ```bash
+  REGISTRY_SERVER=https://index.docker.io/v1/ REGISTRY_USER=<your_registry_user> REGISTRY_PASSWORD=<your_registry_password>
+  kubectl create secret docker-registry push-secret \
+      --docker-server=$REGISTRY_SERVER \
+      --docker-username=$REGISTRY_USER \
+      --docker-password=$REGISTRY_PASSWORD
+  ```
 
 ### Input only sample
 
@@ -101,7 +97,11 @@ kubectl apply -f without-output/function-bindings.yaml
 Afterwards, use the following command to observe the log of the function:
 
 ```shell
-kubectl logs -f $(kubectl get po -l serving=bindings-without-output-serving -o jsonpath='{.items[0].metadata.name}') function
+kubectl logs -f \
+  $(kubectl get po -l \
+  openfunction.io/serving=$(kubectl get functions bindings-without-output -o jsonpath='{.status.serving.resourceRef}') \
+  -o jsonpath='{.items[0].metadata.name}') \
+  function
 ```
 
 You will be able to see messages similar to the following:
@@ -137,7 +137,11 @@ kubectl apply -f with-output/function-bindings.yaml
 Afterwards, use the following command to observe the log of the function:
 
 ```shell
-kubectl logs -f $(kubectl get po -l serving=bindings-with-output-serving -o jsonpath='{.items[0].metadata.name}') function
+kubectl logs -f \
+  $(kubectl get po -l \
+  openfunction.io/serving=$(kubectl get functions bindings-with-output -o jsonpath='{.status.serving.resourceRef}') \
+  -o jsonpath='{.items[0].metadata.name}') \
+  function
 ```
 
 You will be able to see messages similar to the following:
