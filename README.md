@@ -14,12 +14,14 @@ We currently support two kinds of runtime, Knative and OpenFuncAsync.
 - ["Hello world" sample in node](functions/Knative/hello-world-node)
 - ["Hello world" sample in dotnet](functions/Knative/hello-world-dotnet)
 - [Azure function sample](functions/Knative/azure-func-go)
+- [Logs handler function](functions/Knative/logs-handler-function)
 
 ### OpenFuncAsync runtime
 
 - [OpenFuncAsync bindings sample in go](functions/OpenFuncAsync/bindings)
 - [OpenFuncAsync pubsub sample in go](functions/OpenFuncAsync/pubsub)
 - [OpenFuncAsync service-invoke sample in go](functions/OpenFuncAsync/service-invoke)
+- [Logs handler function](functions/OpenFuncAsync/logs-handler-function)
 
 ## Application samples
 
