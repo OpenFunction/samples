@@ -31,5 +31,6 @@ We currently support two kinds of runtime, Knative and OpenFuncAsync.
 
 The following are samples of OpenFunction functions-framework.
 
-- [Knative runtime demos in go](functions-framework/Knative)
-- [OpenFuncAsync runtime demos in go](functions-framework/OpenFuncAsync)
+- [Knative runtime demos in go](functions-framework/golang/Knative)
+- [OpenFuncAsync runtime demos in go](functions-framework/golang/OpenFuncAsync)
+
