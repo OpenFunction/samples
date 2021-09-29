@@ -33,4 +33,6 @@ The following are samples of OpenFunction functions-framework.
 
 - [Knative runtime demos in go](functions-framework/golang/Knative)
 - [OpenFuncAsync runtime demos in go](functions-framework/golang/OpenFuncAsync)
+- [Knative runtime demos in nodejs](functions-framework/nodejs/Knative)
+- [OpenFuncAsync runtime demos in nodejs](functions-framework/nodejs/OpenFuncAsync)
 
