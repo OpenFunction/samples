@@ -19,7 +19,7 @@ const (
 	Severity         = "warning"
 )
 
-func LogsHandler(ctx *ofctx.OpenFunctionContext, in []byte) int {
+func LogsHandler(ctx *ofctx.OpenFunctionContext, in []byte) ofctx.RetValue {
 	content := string(in)
 	matchHTTPCode, _ := regexp.MatchString(fmt.Sprintf(" %s ", HTTPCodeNotFound), content)
 	matchNamespace, _ := regexp.MatchString(fmt.Sprintf("namespace_name\":\"%s", Namespace), content)
@@ -30,7 +30,7 @@ func LogsHandler(ctx *ofctx.OpenFunctionContext, in []byte) int {
 
 		match := regexp.MustCompile(`([A-Z]+) (/\S*) HTTP`).FindStringSubmatch(content)
 		if match == nil {
-			return 500
+			return ctx.ReturnWithInternalError()
 		}
 		path := match[len(match)-1]
 		method := match[len(match)-2]
@@ -64,10 +64,10 @@ func LogsHandler(ctx *ofctx.OpenFunctionContext, in []byte) int {
 		notify.Alerts = append(notify.Alerts, alt)
 		notifyBytes, _ := json.Marshal(notify)
 
-		if err := ctx.SendTo(notifyBytes, "notification-manager"); err != nil {
+		if _, err := ctx.Send("notify", notifyBytes); err != nil {
 			panic(err)
 		}
 		log.Printf("Send log to notification manager.")
 	}
-	return 200
+	return ctx.ReturnWithSuccess()
 }
