@@ -1,14 +1,14 @@
-apiVersion: core.openfunction.io/v1alpha1
+apiVersion: core.openfunction.io/v1alpha2
 kind: Function
 metadata:
   name: logs-async-handler
 spec:
   version: "v1.0.0"
-  image: openfunctiondev/logs-async-handler:v1
+  image: openfunctiondev/logs-async-handler:v2
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunctiondev/go115-builder:v0.2.0
+    builder: openfunctiondev/go115-builder:v0.3.0
     env:
       FUNC_NAME: "LogsHandler"
     srcRepo:
@@ -19,18 +19,18 @@ spec:
     openFuncAsync:
       dapr:
         inputs:
-          - name: kafka-receiver
+          - name: kafka
+            component: kafka-receiver
             type: bindings
         outputs:
-          - name: notification-manager
+          - name: notify
             type: bindings
-            params:
-              operation: "post"
-              type: "bindings"
+            component: notification-manager
+            operation: "post"
         annotations:
           dapr.io/log-level: "debug"
         components:
-          - name: kafka-receiver
+          kafka-receiver:
             type: bindings.kafka
             version: v1
             metadata:
@@ -44,7 +44,7 @@ spec:
                 value: "logs"
               - name: consumerGroup
                 value: "logs-handler"
-          - name: notification-manager
+          notification-manager:
             type: bindings.http
             version: v1
             metadata:
