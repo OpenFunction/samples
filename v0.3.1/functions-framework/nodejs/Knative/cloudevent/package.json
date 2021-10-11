@@ -1,0 +1,15 @@
+{
+  "name": "cloudevent",
+  "version": "1.0.0",
+  "description": "The functions framework can unmarshall incoming [CloudEvents](http://cloudevents.io/) payloads to a `cloudevent` object. Note that your function must use the `cloudevent-style` function signature.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "functions-framework --target=helloCloudEvents --source=cloudevent"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openfunction/functions-framework": "^0.3.0"
+  }
+}
