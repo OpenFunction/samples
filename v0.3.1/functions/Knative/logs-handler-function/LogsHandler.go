@@ -16,7 +16,7 @@ import (
 const (
 	HTTPCodeNotFound           = "404"
 	Namespace                  = "demo-project"
-	PodName                    = "wordpress-v1-[A-Za-z0-9]{9}-[A-Za-z0-9]{5}"
+	PodName                    = "wordpress-v1-[A-Za-z0-9]{5,15}-[A-Za-z0-9]{3,10}"
 	AlertName                  = "404 Request"
 	Severity                   = "warning"
 	NotificationManagerAddress = "http://notification-manager-svc.kubesphere-monitoring-system.svc.cluster.local:19093/api/v2/alerts"
