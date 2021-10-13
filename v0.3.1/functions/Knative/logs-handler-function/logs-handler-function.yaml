@@ -16,3 +16,8 @@ spec:
       sourceSubPath: "v0.3.1/functions/Knative/logs-handler-function/"
   serving:
     runtime: "Knative"
+#    template:
+#      containers:
+#       - name: function
+#          # Set imagePullPolicy if needed
+#          imagePullPolicy: Always
