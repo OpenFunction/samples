@@ -16,6 +16,11 @@ spec:
       sourceSubPath: "v0.3.1/functions/OpenFuncAsync/logs-handler-function/"
   serving:
     runtime: "OpenFuncAsync"
+#    template:
+#      containers:
+#       - name: function
+#          # Set imagePullPolicy if needed
+#          imagePullPolicy: Always
     openFuncAsync:
       dapr:
         inputs:

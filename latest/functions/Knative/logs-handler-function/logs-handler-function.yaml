@@ -16,3 +16,7 @@ spec:
       sourceSubPath: "latest/functions/Knative/logs-handler-function/"
   serving:
     runtime: "Knative"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
