@@ -90,13 +90,23 @@ You will be able to see messages similar to the following:
 2021/07/02 09:02:08 binding - Data: Received
 ```
 
-Now we need to start the output target service. (Use `kubectl delete -f with-output/output/goapp.yaml` for cleaning.)
+Now we need to start the output target function.
 
 ```shell
-kubectl apply -f with-output/output/goapp.yaml
+kubectl apply -f with-output/output/output-target.yaml
 ```
 
-Use command `kubectl logs -f $(kubectl get po -l app=bindingsgoapp -o jsonpath='{.items[0].metadata.name}') go` to observe the logs of output target service:
+Use the following command to observe the log of the function:
+
+```shell
+kubectl logs -f \
+  $(kubectl get po -l \
+  openfunction.io/serving=$(kubectl get functions bindings-output-target -o jsonpath='{.status.serving.resourceRef}') \
+  -o jsonpath='{.items[0].metadata.name}') \
+  function
+```
+
+You will be able to see messages similar to the following:
 
 ```shell
 data from Event Hubs '{Hello}'
@@ -104,4 +114,3 @@ data from Event Hubs '{Hello}'
 data from Event Hubs '{Hello}'
 data from Event Hubs '{Hello}'
 ```
-

@@ -16,6 +16,10 @@ spec:
       sourceSubPath: "latest/functions/OpenFuncAsync/pubsub/subscriber"
   serving:
     runtime: "OpenFuncAsync"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
     openFuncAsync:
       dapr:
         inputs:

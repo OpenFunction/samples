@@ -1,0 +1,17 @@
+{
+  "input": {
+    "name": "pubsub",
+    "uri": "test",
+    "params": {
+      "type": "pubsub"
+    }
+  },
+  "outputs": {
+    "pubsub": {
+      "uri": "test",
+      "params": {
+        "type": "pubsub"
+      }
+    }
+  }
+}

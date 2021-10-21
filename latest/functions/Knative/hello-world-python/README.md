@@ -3,7 +3,7 @@
 ## Run on OpenFunction
 
 1. [Install OpenFunction](https://github.com/OpenFunction/OpenFunction#quickstart)
-2. [Run a function](https://github.com/OpenFunction/OpenFunction#sample-run-a-function)
+2. [Refer to the go function sample](../hello-world-go/README.md)
 
 Definition of a ```Function``` for ```python``` is shown below:
 
@@ -15,21 +15,23 @@ metadata:
 spec:
   version: "v1.0.0"
   image: "<your registry name>/sample-python-func:latest"
-  # port: 8080 # default to 8080
+  imageCredentials:
+    name: push-secret
+  port: 8080 # default to 8080
   build:
     builder: "openfunction/gcp-builder:v1"
-    params:
+    env:
       GOOGLE_FUNCTION_TARGET: "hello_world"
       GOOGLE_FUNCTION_SIGNATURE_TYPE: "http"
-      # GOOGLE_FUNCTION_SOURCE: "main.py" # for python function
+      GOOGLE_FUNCTION_SOURCE: "main.py"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "latest/functions/Knative/hello-world-python"
-    registry:
-      url: "https://index.docker.io/v1/"
-      account:
-        name: "basic-user-pass"
-        key: "username"
-  # serving:
-    # runtime: "Knative" # default to Knative
+  serving:
+    runtime: Knative # default to Knative
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
 ```
+
