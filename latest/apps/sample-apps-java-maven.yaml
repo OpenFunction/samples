@@ -5,16 +5,17 @@ metadata:
 spec:
   version: "v1.0.0"
   image: "openfunction/buildpacks-sample-apps-java-maven:latest"
+  imageCredentials:
+    name: push-secret
   port: 8080 # default to 8080
   build:
     builder: "cnbs/sample-builder:alpine"
     srcRepo:
       url: "https://github.com/buildpacks/samples.git"
-      sourceSubPath: "latest/apps/java-maven"
-    registry:
-      url: "https://index.docker.io/v1/"
-      account:
-        name: "basic-user-pass"
-        key: "username"
-  #serving:
-    #runtime: "Knative" # default to Knative
+      sourceSubPath: "apps/java-maven"
+  serving:
+    runtime: "Knative" # default to Knative
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always

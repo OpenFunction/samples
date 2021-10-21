@@ -1,29 +1,20 @@
-package main
+package bindings
 
 import (
     "encoding/json"
     "fmt"
-    "net/http"
+    ofctx "github.com/OpenFunction/functions-framework-go/openfunction-context"
 )
 
-func main() {
-    http.HandleFunc("/sample-topic", func(rw http.ResponseWriter, req *http.Request) {
-        var msg Message
-
-        err := json.NewDecoder(req.Body).Decode(&msg)
-        if err != nil {
-            fmt.Println("error reading message from Kafka binding", err)
-            rw.WriteHeader(500)
-            return
-        }
-        fmt.Printf("message from Kafka '%s'\n", msg)
-        rw.WriteHeader(200)
-    })
-    err := http.ListenAndServe(":3000", nil)
+func OutputTarget(ctx *ofctx.OpenFunctionContext, in []byte) ofctx.RetValue {
+    var msg Message
+    err := json.Unmarshal(in, &msg)
     if err != nil {
-        fmt.Println(err)
-        return
+        fmt.Println("error reading message from Kafka binding", err)
+        return ctx.ReturnWithInternalError()
     }
+    fmt.Printf("message from Kafka '%s'\n", msg)
+    return ctx.ReturnWithSuccess()
 }
 
 type Message struct {
