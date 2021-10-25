@@ -69,7 +69,7 @@ You also need a definition of producer.
 Create an environment variable `FUNC_CONTEXT` and assign the above context to it.
 
 ```shell
-export FUNC_CONTEXT='{"name":"producer","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"60012","inputs":{},"outputs":{"msg":{"uri":"my_topic","component":"msg","type":"pubsub"}},"runtime":"OpenFuncAsync"}'
+export FUNC_CONTEXT='{"name":"producer","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"60012","inputs":{},"outputs":{"pub":{"uri":"my_topic","component":"msg","type":"pubsub"}},"runtime":"OpenFuncAsync"}'
 ```
 
 Start the service with another terminal to publish message.
