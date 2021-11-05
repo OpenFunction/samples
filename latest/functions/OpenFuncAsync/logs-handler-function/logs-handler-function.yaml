@@ -11,6 +11,7 @@ spec:
     builder: openfunctiondev/go115-builder:v0.3.0
     env:
       FUNC_NAME: "LogsHandler"
+      FUNC_GOPROXY: "https://goproxy.cn"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "latest/functions/OpenFuncAsync/logs-handler-function/"
