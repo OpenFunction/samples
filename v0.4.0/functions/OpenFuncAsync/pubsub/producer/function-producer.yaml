@@ -11,7 +11,8 @@ spec:
     builder: openfunctiondev/go115-builder:v0.3.0
     env:
       FUNC_NAME: "Producer"
-      FUNC_GOPROXY: "https://goproxy.cn"
+      # Use FUNC_GOPROXY to set the goproxy
+      #FUNC_GOPROXY: "https://goproxy.cn"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "v0.4.0/functions/OpenFuncAsync/pubsub/producer/"
