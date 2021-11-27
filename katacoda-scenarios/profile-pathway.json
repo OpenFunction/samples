@@ -1,0 +1,9 @@
+{
+    "courses": [
+      {
+        "title": "Install OpenFunction on kubernetes",
+        "description": "Install OpenFunction on existing Kubernetes cluster",
+        "id": "install-openfunction-on-kubernetes"
+      }
+    ]
+}

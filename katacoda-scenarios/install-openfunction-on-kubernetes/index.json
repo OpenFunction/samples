@@ -1,0 +1,38 @@
+{
+    "title": "Install OpenFunction on kubernetes",
+    "description": "Install OpenFunction on existing Kubernetes cluster",
+    "difficulty": "beginner",
+    "time": "60",
+    "details": {
+      "steps": [
+        {
+          "title": "Step-1 Kubernetes Cluster",
+          "text": "step1.md"
+        },
+        {
+          "title": "Step-2 Upgrade kubernetes version",
+          "text": "step2.md"
+        },
+        {
+          "title": "Step-3 Prerequisites",
+          "text": "step3.md"
+        },
+        {
+          "title": "Step-4 Installation OpenFunction",
+          "text": "step4.md"
+        }
+      ],
+      "intro": {
+        "text": "intro.md"
+      },
+      "finish": {
+        "text": "finish.md"
+      }
+    },
+     "environment": {
+        "uilayout": "terminal"
+      },
+    "backend": {
+      "imageid": "kubernetes-cluster-running:1.18"
+    }
+  }
