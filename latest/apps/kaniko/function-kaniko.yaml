@@ -12,7 +12,7 @@ spec:
     builder: openfunction/kaniko-executor:v1.7.0
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "latest/apps/docker-build"
+      sourceSubPath: "latest/apps/with-dockerfile"
     shipwright:
       strategy:
         name: kaniko

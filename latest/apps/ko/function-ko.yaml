@@ -12,7 +12,7 @@ spec:
     builder: golang:1.17
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "latest/apps/docker-build"
+      sourceSubPath: "latest/apps/with-dockerfile"
     shipwright:
       strategy:
         name: ko
