@@ -8,7 +8,7 @@ spec:
   imageCredentials:
     name: push-secret
   build:
-    builder: "openfunctiondev/go115-builder:v0.3.0"
+    builder: "openfunction/builder-go:v0.4.0-1.15"
     env:
       FUNC_NAME: "BindingsOutput"
     srcRepo:

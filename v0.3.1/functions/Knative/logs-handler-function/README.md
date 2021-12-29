@@ -1,6 +1,12 @@
 # Function Logs Handler
 
-> You can refer to the original article by visiting this: [以 Serverless 的方式实现 Kubernetes 日志告警](https://mp.weixin.qq.com/s/EZWYqtXJ7Cj-Yd7Fro6uyA)
+For a detailed description of this function example, you can refer to the following blogs:
+
+[OpenFunction 应用系列之一: 以 Serverless 的方式实现 Kubernetes 日志告警](https://kubesphere.io/zh/blogs/serverless-way-for-kubernetes-log-alert/)
+
+or
+
+[Serverless Use Case: Elastic Kubernetes Log Alerts with OpenFunction and Kafka](https://mp.weixin.qq.com/s/EZWYqtXJ7Cj-Yd7Fro6uyA)
 
 ## Prerequisites
 

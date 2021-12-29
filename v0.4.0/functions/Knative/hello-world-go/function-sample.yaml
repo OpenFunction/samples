@@ -23,4 +23,3 @@ spec:
 #       - name: function
 #          # Set imagePullPolicy if needed
 #          imagePullPolicy: Always
-
