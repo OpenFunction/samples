@@ -1,0 +1,18 @@
+apiVersion: core.openfunction.io/v1alpha1
+kind: Function
+metadata:
+  name: sample-app-java-maven
+spec:
+  version: "v1.0.0"
+  image: "openfunction/buildpacks-sample-apps-java-maven:v0.3"
+  imageCredentials:
+    name: push-secret
+  port: 8080 # default to 8080
+  build:
+    builder: "cnbs/sample-builder:alpine"
+    srcRepo:
+      revision: "release-0.3"
+      url: "https://github.com/buildpacks/samples.git"
+      sourceSubPath: "apps/java-maven"
+  serving:
+    runtime: "Knative" # default to Knative
