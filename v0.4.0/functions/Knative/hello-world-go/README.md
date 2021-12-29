@@ -4,7 +4,7 @@
 
 ### OpenFunction
 
-You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFunction#readme) to setup OpenFunction.
+You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFunction#install-openfunction) to setup OpenFunction.
 
 ## Deployment
 
@@ -46,7 +46,7 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
 
     ```shell
     kubectl get functions.core.openfunction.io
-
+   
     NAME              AGE
     function-sample   5s
     ```

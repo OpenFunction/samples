@@ -2,7 +2,7 @@
 
 ## Run on OpenFunction
 
-1. [Install OpenFunction](https://github.com/OpenFunction/OpenFunction#quickstart)
+1. [Install OpenFunction](https://github.com/OpenFunction/OpenFunction#install-openfunction)
 2. [Refer to the go function sample](../hello-world-go/README.md)
 
 Definition of a ```Function``` for ```java``` is shown below:
