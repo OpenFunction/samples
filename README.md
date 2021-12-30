@@ -38,5 +38,3 @@ The following are samples of OpenFunction functions-framework.
 ## Katacode scenarios
 
 - [scenarios](katacoda-scenarios)
-
-- katacoda-scenarios)
