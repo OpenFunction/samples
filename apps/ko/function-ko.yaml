@@ -1,0 +1,22 @@
+apiVersion: core.openfunction.io/v1alpha2
+kind: Function
+metadata:
+  name: function-ko
+spec:
+  version: "v1.0.0"
+  image: "openfunctiondev/sample-ko:v0.5"
+  imageCredentials:
+    name: push-secret
+  #port: 8080 # default to 8080
+  build:
+    builder: golang:1.17
+    srcRepo:
+      revision: "release-0.5"
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "apps/with-dockerfile"
+    shipwright:
+      strategy:
+        name: ko
+        kind: ClusterBuildStrategy
+  serving:
+    runtime: Knative
