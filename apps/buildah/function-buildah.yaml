@@ -1,0 +1,26 @@
+apiVersion: core.openfunction.io/v1alpha2
+kind: Function
+metadata:
+  name: function-buildah
+spec:
+  version: "v1.0.0"
+  image: "openfunctiondev/sample-buildah-go:latest"
+  imageCredentials:
+    name: push-secret
+  #port: 8080 # default to 8080
+  build:
+    builder: openfunction/buildah:v1.23.1
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "apps/with-dockerfile"
+    shipwright:
+      strategy:
+        name: buildah
+        kind: ClusterBuildStrategy
+  serving:
+    runtime: Knative
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+
