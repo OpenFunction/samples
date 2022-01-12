@@ -1,5 +1,9 @@
 # OpenFunction function samples
 
+For samples of the latest stable version, please visit here:
+
+:arrow_right: [v0.5.0 samples](https://github.com/openFunction/samples/tree/release-0.5)
+
 ## Function samples
 
 The following are samples of OpenFunction function.
@@ -26,14 +30,9 @@ We currently support two kinds of runtime, Knative and OpenFuncAsync.
 
 - [Java App](apps/sample-apps-java-maven.yaml)
 
-## Functions-framework samples
+## Functions Framework samples
 
-The following are samples of OpenFunction functions-framework.
-
-- Knative runtime demos in [go](functions-framework/golang/Knative)
-- OpenFuncAsync runtime demos in [go](functions-framework/golang/OpenFuncAsync)
-- Knative runtime demos in [nodejs](functions-framework/nodejs/Knative)
-- OpenFuncAsync runtime demos in [nodejs](functions-framework/nodejs/OpenFuncAsync)
+- [Functions Framework demos](functions-framework)
 
 ## Katacode scenarios
 
