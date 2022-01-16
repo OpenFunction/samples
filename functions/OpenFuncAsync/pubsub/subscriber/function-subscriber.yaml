@@ -8,14 +8,16 @@ spec:
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunction/builder-go:v0.4.0-1.15
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "Subscriber"
+      FUNC_CLEAR_SOURCE: "true"
       # Use FUNC_GOPROXY to set the goproxy
       # FUNC_GOPROXY: "https://goproxy.cn"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/OpenFuncAsync/pubsub/subscriber"
+      revision: "main"
   serving:
     runtime: "OpenFuncAsync"
     template:
