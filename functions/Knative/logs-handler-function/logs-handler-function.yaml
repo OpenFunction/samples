@@ -8,12 +8,14 @@ spec:
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunction/builder-go:v0.4.0-1.15
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "LogsHandler"
+      FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/logs-handler-function/"
+      revision: "main"
   serving:
     runtime: "Knative"
     template:
