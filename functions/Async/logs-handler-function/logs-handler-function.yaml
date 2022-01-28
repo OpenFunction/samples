@@ -1,0 +1,70 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: logs-async-handler
+spec:
+  version: "v1.0.0"
+  image: openfunctiondev/logs-async-handler:latest
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: openfunctiondev/builder-go:latest
+    env:
+      FUNC_NAME: "LogsHandler"
+      FUNC_CLEAR_SOURCE: "true"
+      # Use FUNC_GOPROXY to set the goproxy
+      # FUNC_GOPROXY: "https://goproxy.cn"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/Async/logs-handler-function/"
+      revision: "main"
+  serving:
+    runtime: "Async"
+    scaleOptions:
+      keda:
+        scaledObject:
+          pollingInterval: 15
+          minReplicaCount: 0
+          maxReplicaCount: 10
+          cooldownPeriod: 30
+          triggers:
+            - type: kafka
+              metadata:
+                topic: logs
+                bootstrapServers: kafka-logs-receiver-kafka-brokers.default.svc.cluster.local:9092
+                consumerGroup: logs-handler
+                lagThreshold: "10"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+    inputs:
+      - name: kafka
+        component: kafka-receiver
+        type: bindings
+    outputs:
+      - name: notify
+        type: bindings
+        component: notification-manager
+        operation: "post"
+    bindings:
+      kafka-receiver:
+        type: bindings.kafka
+        version: v1
+        metadata:
+          - name: brokers
+            value: "kafka-logs-receiver-kafka-brokers:9092"
+          - name: authRequired
+            value: "false"
+          - name: publishTopic
+            value: "logs"
+          - name: topics
+            value: "logs"
+          - name: consumerGroup
+            value: "logs-handler"
+      notification-manager:
+        type: bindings.http
+        version: v1
+        metadata:
+          - name: url
+            value: http://notification-manager-svc.kubesphere-monitoring-system.svc.cluster.local:19093/api/v2/alerts

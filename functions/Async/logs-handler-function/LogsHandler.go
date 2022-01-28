@@ -1,36 +1,27 @@
-package logshandler
+package logs_handler_function
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"regexp"
 	"time"
 
+	ofctx "github.com/OpenFunction/functions-framework-go/context"
 	alert "github.com/prometheus/alertmanager/template"
 )
 
 const (
-	HTTPCodeNotFound           = "404"
-	Namespace                  = "demo-project"
-	PodName                    = "wordpress-v1-[A-Za-z0-9]{5,15}-[A-Za-z0-9]{3,10}"
-	AlertName                  = "404 Request"
-	Severity                   = "warning"
-	NotificationManagerAddress = "http://notification-manager-svc.kubesphere-monitoring-system.svc.cluster.local:19093/api/v2/alerts"
+	HTTPCodeNotFound = "404"
+	Namespace        = "demo-project"
+	PodName          = "wordpress-v1-[A-Za-z0-9]{5,15}-[A-Za-z0-9]{3,10}"
+	AlertName        = "404 Request"
+	Severity         = "warning"
 )
 
-func LogsHandler(w http.ResponseWriter, r *http.Request) error {
-	reqBody, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		w.WriteHeader(500)
-		fmt.Fprintln(w, "Get request body failed")
-		return err
-	}
-	content := string(reqBody)
+func LogsHandler(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
+	content := string(in)
 	matchHTTPCode, _ := regexp.MatchString(fmt.Sprintf(" %s ", HTTPCodeNotFound), content)
 	matchNamespace, _ := regexp.MatchString(fmt.Sprintf("namespace_name\":\"%s", Namespace), content)
 	matchPodName := regexp.MustCompile(fmt.Sprintf(`(%s)`, PodName)).FindStringSubmatch(content)
@@ -40,9 +31,7 @@ func LogsHandler(w http.ResponseWriter, r *http.Request) error {
 
 		match := regexp.MustCompile(`([A-Z]+) (/\S*) HTTP`).FindStringSubmatch(content)
 		if match == nil {
-			w.WriteHeader(500)
-			fmt.Fprintln(w, "Cannot retrieve information")
-			return errors.New("failed to match event")
+			return ctx.ReturnOnInternalError(), errors.New("failed to match event")
 		}
 		path := match[len(match)-1]
 		method := match[len(match)-2]
@@ -76,22 +65,10 @@ func LogsHandler(w http.ResponseWriter, r *http.Request) error {
 		notify.Alerts = append(notify.Alerts, alt)
 		notifyBytes, _ := json.Marshal(notify)
 
-		req, err := http.NewRequest("POST", NotificationManagerAddress, bytes.NewReader(notifyBytes))
-		if err != nil {
-			w.WriteHeader(500)
-			fmt.Fprintln(w, "Failed to create request")
-			return err
+		if _, err := ctx.Send("notify", notifyBytes); err != nil {
+			panic(err)
 		}
-		req.Header.Set("Content-Type", "application/json")
-		client := &http.Client{}
-		_, err = client.Do(req)
-		if err != nil {
-			w.WriteHeader(500)
-			fmt.Fprintln(w, "Failed to send request to notification manager")
-			return err
-		}
-
-		log.Printf("Send log to notification manager")
+		log.Printf("Send log to notification manager.")
 	}
-	return nil
+	return ctx.ReturnOnSuccess(), nil
 }

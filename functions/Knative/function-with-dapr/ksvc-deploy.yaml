@@ -1,0 +1,26 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: openfunction-function
+spec:
+  template:
+    metadata:
+      # This is the name of our new "Revision," it must follow the convention {service-name}-{revision-name}
+      name: openfunction-function-rev1
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: sender
+        dapr.io/app-port: "8080"
+        dapr.io/app-protocol: "grpc"
+        dapr.io/metrics-port: "19090"
+        dapr.io/log-level: debug
+    spec:
+      containers:
+        - image: zephyrfish/sender:latest
+          name: sender
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: FUNC_CONTEXT
+              value: '{"name":"sender","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"8080","inputs":{},"outputs":{"target":{"uri":"sender","operation":"create","component":"serving-wxm5w-component-sample-topic-m5sgq","type":"bindings"}},"runtime":"Knative","prePlugins":["plugin-custom","plugin-example"],"postPlugins":["plugin-custom","plugin-example"]}'

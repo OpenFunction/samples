@@ -1,4 +1,4 @@
-apiVersion: core.openfunction.io/v1alpha2
+apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
   name: function-sample
@@ -12,16 +12,18 @@ spec:
     builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "HelloWorld"
-      FUNC_TYPE: "http"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/hello-world-go"
       revision: "main"
   serving:
-    runtime: "Knative" # default to Knative
 #    template:
 #      containers:
 #        - name: function
 #          imagePullPolicy: IfNotPresent
-
+    runtime: "Knative"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always

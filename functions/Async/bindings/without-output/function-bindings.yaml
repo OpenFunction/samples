@@ -1,0 +1,35 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: bindings-without-output
+spec:
+  version: "v1.0.0"
+  image: openfunctiondev/bindings-without-output:latest
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: openfunctiondev/builder-go:latest
+    env:
+      FUNC_NAME: "BindingsNoOutput"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/Async/bindings/without-output"
+      revision: "main"
+  serving:
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+    runtime: "Async"
+    inputs:
+      - name: input
+        component: cron
+        type: bindings
+    bindings:
+      cron:
+        type: bindings.cron
+        version: v1
+        metadata:
+        - name: schedule
+          value: "@every 2s"

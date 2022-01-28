@@ -1,0 +1,41 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: output-target
+spec:
+  version: "v1.0.0"
+  image: openfunctiondev/bindings-output-target:latest
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: openfunctiondev/builder-go:latest
+    env:
+      FUNC_NAME: "Target"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/Knative/function-with-dapr/output-target"
+  serving:
+    runtime: Async
+    inputs:
+      - name: greeting
+        component: target-topic
+        type: bindings
+    bindings:
+      target-topic:
+        type: bindings.kafka
+        version: v1
+        metadata:
+          - name: brokers
+            value: "kafka-server-kafka-brokers:9092"
+          - name: topics
+            value: "sample-topic"
+          - name: consumerGroup
+            value: "output-target"
+          - name: publishTopic
+            value: "sample-topic"
+          - name: authRequired
+            value: "false"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always

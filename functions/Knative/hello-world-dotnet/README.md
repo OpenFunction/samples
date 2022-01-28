@@ -8,7 +8,7 @@
 Definition of a ```Function``` for ```dotnet``` is shown below:
 
 ```yaml
-apiVersion: core.openfunction.io/v1alpha2
+apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
   name: dotnet-sample
