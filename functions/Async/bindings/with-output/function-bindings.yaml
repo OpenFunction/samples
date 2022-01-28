@@ -1,0 +1,62 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: bindings-with-output
+  annotations:
+    plugins: |
+      pre:
+      - plugin-custom
+      - plugin-example
+      post:
+      - plugin-custom
+      - plugin-example
+spec:
+  version: "v1.0.0"
+  image: openfunctiondev/bindings-with-output:latest
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: openfunctiondev/builder-go:latest
+    env:
+      FUNC_NAME: "BindingsOutput"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/Async/bindings/with-output/"
+      revision: "main"
+  serving:
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+    runtime: "Async"
+    inputs:
+      - name: cron
+        component: cron
+        type: bindings
+    outputs:
+      - name: target
+        component: kafka-server
+        type: bindings
+        operation: "create"
+    bindings:
+      cron:
+        type: bindings.cron
+        version: v1
+        metadata:
+        - name: schedule
+          value: "@every 2s"
+      kafka-server:
+        type: bindings.kafka
+        version: v1
+        metadata:
+        - name: brokers
+          value: "kafka-server-kafka-brokers:9092"
+        - name: topics
+          value: "sample-topic"
+        - name: consumerGroup
+          value: "bindings-with-output"
+        - name: publishTopic
+          value: "sample-topic"
+        - name: authRequired
+          value: "false"
