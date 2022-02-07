@@ -2,13 +2,13 @@
 
 For samples of the latest stable version, please visit here:
 
-:arrow_right: [v0.5.0 samples](https://github.com/openFunction/samples/tree/release-0.5)
+-> [v0.5.0 samples](https://github.com/openFunction/samples/tree/release-0.5)
 
 ## Function samples
 
 The following are samples of OpenFunction function.
 
-We currently support two kinds of runtime, Knative and OpenFuncAsync.
+We currently support two kinds of runtime, Knative and Async.
 
 ### Knative runtime
 
@@ -20,11 +20,11 @@ We currently support two kinds of runtime, Knative and OpenFuncAsync.
 - [Azure function sample](functions/Knative/azure-func-go)
 - [Logs handler function](functions/Knative/logs-handler-function)
 
-### OpenFuncAsync runtime
+### Async runtime
 
-- OpenFuncAsync bindings sample in [go](functions/OpenFuncAsync/bindings)
-- OpenFuncAsync pubsub sample in [go](functions/OpenFuncAsync/pubsub)
-- Logs handler function [go](functions/OpenFuncAsync/logs-handler-function)
+- Async bindings sample in [go](functions/Async/bindings)
+- Async pubsub sample in [go](functions/Async/pubsub)
+- Logs handler function [go](functions/Async/logs-handler-function)
 
 ## Application samples
 
