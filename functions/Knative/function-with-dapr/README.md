@@ -48,7 +48,7 @@ serving:
         imagePullPolicy: Always
 ```
 
-使用以下命令创建函数：
+Use the following command to create the function:
 
 ```shell
 kubectl apply -f output/output-target.yaml

@@ -6,11 +6,11 @@ Current supported list:
 
 - [functions-framework-go](https://github.com/OpenFunction/functions-framework-go)
 
-Depending on the type of runtime, the demos are divided into `Knative` and `OpenFuncAsync`, please check them separately:
+Depending on the type of runtime, the demos are divided into `Knative` and `Async`, please check them separately:
 
 * Golang
   * [Knative runtime demos](golang/Knative)
-  * [OpenFuncAsync runtime demos](golang/Async)
+  * [Async runtime demos](golang/Async)
 
 ## Plugin mechanism
 
