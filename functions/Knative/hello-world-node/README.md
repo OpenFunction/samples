@@ -19,10 +19,10 @@ spec:
     name: push-secret
   port: 8080 # default to 8080
   build:
-    builder: "openfunction/gcp-builder:v1"
+    builder: "openfunction/builder-node:v2-16.13"
     env:
-      GOOGLE_FUNCTION_TARGET: "helloWorld"
-      GOOGLE_FUNCTION_SIGNATURE_TYPE: "http"
+      FUNC_NAME: "helloWorld"
+      FUNC_TYPE: "http"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/hello-world-node"
