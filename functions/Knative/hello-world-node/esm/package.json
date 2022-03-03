@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "scripts": {
+    "start": "functions-framework --target=helloESM"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@openfunction/functions-framework": "^0.3.6"
+  }
+}
