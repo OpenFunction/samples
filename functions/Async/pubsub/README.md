@@ -18,8 +18,8 @@ Build and push the producer image.
 
 ```shell
 cd producer
-docker build -t <your registry name>/v1beta1-autoscaling-producer:v2 -f Dockerfile.producer .
-docker push <your registry name>/v1beta1-autoscaling-producer:v2
+docker build -t <your registry name>/v1beta1-autoscaling-producer:latest -f Dockerfile.producer .
+docker push <your registry name>/v1beta1-autoscaling-producer:latest
 ```
 
 Modify the container image in `deploy.yaml`:
@@ -30,8 +30,8 @@ Modify the container image in `deploy.yaml`:
     spec:
       containers:
         - name: producer
-          image: <your registry name>/v1beta1-autoscaling-producer:v2
-          imagePullPolicy: IfNotPresent
+          image: <your registry name>/v1beta1-autoscaling-producer:latest
+          imagePullPolicy: Always
           env:
             - name: PUBSUB_NAME
               value: "autoscaling-producer"
@@ -59,7 +59,7 @@ kind: Function
 metadata:
   name: autoscaling-subscriber
 spec:
-  image: "<your registry name>/autoscaling-subscriber:v2"
+  image: "<your registry name>/autoscaling-subscriber:latest"
 ```
 
 Use the following commands to create these Functions:

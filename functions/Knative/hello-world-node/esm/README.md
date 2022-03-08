@@ -18,23 +18,23 @@ metadata:
   name: node-sample
 spec:
   version: "v1.0.0"
-  image: "<your registry name>/sample-node-esm-func:v2"
+  image: "<your registry name>/sample-node-esm-func:latest"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
   build:
-    builder: "openfunction/builder-node:v2-16.13"
+    builder: "openfunction/builder-node:latest"
     env:
       FUNC_NAME: "helloESM"
       FUNC_TYPE: "http"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/hello-world-node/esm"
-      revision: "release-0.6"
+      revision: "main"
   serving:
     runtime: "knative" # default to knative
     template:
       containers:
         - name: function
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
 ```

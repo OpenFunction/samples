@@ -4,23 +4,23 @@ metadata:
   name: bindings-without-output
 spec:
   version: "v2.0.0"
-  image: openfunctiondev/bindings-without-output:v2
+  image: openfunctiondev/bindings-without-output:latest
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunction/builder-go:v2-1.16
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "BindingsNoOutput"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Async/bindings/without-output"
-      revision: "release-0.6"
+      revision: "main"
   serving:
     template:
       containers:
         - name: function
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
     runtime: "async"
     inputs:
       - name: input

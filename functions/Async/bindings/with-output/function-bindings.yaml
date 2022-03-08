@@ -12,23 +12,23 @@ metadata:
       - plugin-example
 spec:
   version: "v2.0.0"
-  image: openfunctiondev/bindings-with-output:v2
+  image: openfunctiondev/bindings-with-output:latest
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunction/builder-go:v2-1.16
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "BindingsOutput"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Async/bindings/with-output/"
-      revision: "release-0.6"
+      revision: "main"
   serving:
     template:
       containers:
         - name: function
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
     runtime: "async"
     inputs:
       - name: cron

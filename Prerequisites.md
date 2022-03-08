@@ -26,7 +26,7 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
      namespace: default
    spec:
      kafka:
-       version: 2.8.0
+       version: 3.1.0
        replicas: 1
        listeners:
          - name: plain
@@ -41,8 +41,9 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
          offsets.topic.replication.factor: 1
          transaction.state.log.replication.factor: 1
          transaction.state.log.min.isr: 1
-         log.message.format.version: '2.8'
-         inter.broker.protocol.version: "2.8"
+         default.replication.factor: 1
+         min.insync.replicas: 1
+         inter.broker.protocol.version: "3.1"
        storage:
          type: ephemeral
      zookeeper:
@@ -53,7 +54,7 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
        topicOperator: {}
        userOperator: {}
    ---
-   apiVersion: kafka.strimzi.io/v1beta1
+   apiVersion: kafka.strimzi.io/v1beta2
    kind: KafkaTopic
    metadata:
      name: <kafka-topic>

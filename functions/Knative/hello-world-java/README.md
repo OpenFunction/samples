@@ -14,7 +14,7 @@ metadata:
   name: java-sample
 spec:
   version: "v1.0.0"
-  image: "<your registry name>/sample-java-func:v1"
+  image: "<your registry name>/sample-java-func:latest"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
@@ -26,11 +26,11 @@ spec:
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/hello-world-java"
-      revision: "release-0.6"
+      revision: "main"
   serving:
     runtime: knative # default to knative
     template:
       containers:
         - name: function
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
 ```

@@ -4,18 +4,18 @@ metadata:
   name: output-target
 spec:
   version: "v1.0.0"
-  image: openfunctiondev/bindings-output-target:v2
+  image: openfunctiondev/bindings-output-target:latest
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunction/builder-go:v2-1.16
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "Target"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/function-with-dapr/output-target"
-      revision: "release-0.6"
+      revision: "main"
   serving:
     runtime: async
     inputs:
@@ -40,4 +40,4 @@ spec:
     template:
       containers:
         - name: function
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always

@@ -4,22 +4,22 @@ metadata:
   name: function-sample
 spec:
   version: "v2.0.0"
-  image: "openfunctiondev/sample-go-func:v2"
+  image: "openfunctiondev/sample-go-func:latest"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
   build:
-    builder: openfunction/builder-go:v2-1.16
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "HelloWorld"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/hello-world-go"
-      revision: "release-0.6"
+      revision: "main"
   serving:
     template:
       containers:
         - name: function
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
     runtime: "knative"

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: producer
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: producer
@@ -22,8 +22,8 @@ spec:
     spec:
       containers:
         - name: producer
-          image: openfunctiondev/v1beta1-autoscaling-producer:v2
-          imagePullPolicy: IfNotPresent
+          image: openfunctiondev/v1beta1-autoscaling-producer:latest
+          imagePullPolicy: Always
           env:
             - name: PUBSUB_NAME
               value: "autoscaling-producer"
