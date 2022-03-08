@@ -23,8 +23,8 @@ Prepare a context as follows, name it `function.json`. (You can refer to [OpenFu
   "inputs": {
     "cron": {
       "uri": "cron_input",
-      "type": "bindings",
-      "component": "cron_input"
+      "componentType": "bindings.cron",
+      "componentName": "cron_input"
     }
   },
   "outputs": {},
@@ -37,7 +37,8 @@ Prepare a context as follows, name it `function.json`. (You can refer to [OpenFu
 Create an environment variable `FUNC_CONTEXT` and assign the above context to it.
 
 ```shell
-export FUNC_CONTEXT='{"name":"bindings","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"50002","inputs":{"cron":{"uri":"cron_input","type":"bindings","component":"cron_input"}},"outputs":{},"runtime":"Async","prePlugins":["plugin-custom","plugin-example"],"postPlugins":["plugin-custom","plugin-example"]}'
+export FUNC_CONTEXT='{"name":"bindings","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"50002","inputs":{"cron":{"uri":"cron_input","componentType":"bindings.cron","componentName":"cron_input"}},"outputs":{},"runtime":"Async","prePlugins":["plugin-custom","plugin-example"],"postPlugins":["plugin-custom","plugin-example"]}'
+export CONTEXT_MODE='self-host'
 ```
 
 ### Run
@@ -52,7 +53,7 @@ dapr run --app-id bindings_grpc \
     --app-port 50002 \
     --dapr-grpc-port 50001 \
     --components-path ../../components \
-    go run ./main.go ./plugin.go
+    go run ./main.go
 ```
 
 ## Bindings with output
@@ -100,20 +101,20 @@ In this example, the proxy address of Dapr will be used as the target of output.
   "inputs": {
     "cron": {
       "uri": "cron_input",
-      "type": "bindings",
-      "component": "cron_input"
+      "componentType": "bindings.cron",
+      "componentName": "cron_input"
     }
   },
   "outputs": {
     "echo": {
       "uri": "echo",
       "operation": "create",
-      "component": "echo",
+      "componentName": "echo",
       "metadata": {
         "path": "echo",
         "Content-Type": "application/json; charset=utf-8"
       },
-      "type": "bindings"
+      "componentType": "bindings.http"
     }
   },
   "runtime": "Async",
@@ -125,7 +126,8 @@ In this example, the proxy address of Dapr will be used as the target of output.
 Create an environment variable `FUNC_CONTEXT` and assign the above context to it.
 
 ```shell
-export FUNC_CONTEXT='{"name":"bindings","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"50002","inputs":{"cron":{"uri":"cron_input","type":"bindings","component":"cron_input"}},"outputs":{"echo":{"uri":"echo","operation":"create","component":"echo","metadata":{"path":"echo","Content-Type":"application/json; charset=utf-8"},"type":"bindings"}},"runtime":"Async","prePlugins":["plugin-custom","plugin-example"],"postPlugins":["plugin-custom","plugin-example"]}'
+export FUNC_CONTEXT='{"name":"bindings","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"50002","inputs":{"cron":{"uri":"cron_input","componentType":"bindings.cron","componentName":"cron_input"}},"outputs":{"echo":{"uri":"echo","operation":"create","componentName":"echo","metadata":{"path":"echo","Content-Type":"application/json; charset=utf-8"},"componentType":"bindings.http"}},"runtime":"Async","prePlugins":["plugin-custom","plugin-example"],"postPlugins":["plugin-custom","plugin-example"]}'
+export CONTEXT_MODE='self-host'
 ```
 
 ### Run
@@ -139,7 +141,7 @@ dapr run --app-id bindings_grpc \
     --app-port 50002 \
     --dapr-grpc-port 50001 \
     --components-path ../../components \
-    go run ./main.go ./plugin.go
+    go run ./main.go
 ```
 
 

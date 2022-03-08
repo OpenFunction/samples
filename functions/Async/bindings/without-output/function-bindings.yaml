@@ -3,29 +3,28 @@ kind: Function
 metadata:
   name: bindings-without-output
 spec:
-  version: "v1.0.0"
-  image: openfunctiondev/bindings-without-output:latest
+  version: "v2.0.0"
+  image: openfunctiondev/bindings-without-output:v2
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunctiondev/builder-go:latest
+    builder: openfunction/builder-go:v2-1.16
     env:
       FUNC_NAME: "BindingsNoOutput"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Async/bindings/without-output"
-      revision: "main"
+      revision: "release-0.6"
   serving:
     template:
       containers:
         - name: function
-          imagePullPolicy: Always
-    runtime: "Async"
+          imagePullPolicy: IfNotPresent
+    runtime: "async"
     inputs:
       - name: input
         component: cron
-        type: bindings
     bindings:
       cron:
         type: bindings.cron

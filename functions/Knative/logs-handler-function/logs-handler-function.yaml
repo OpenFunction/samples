@@ -3,22 +3,22 @@ kind: Function
 metadata:
   name: logs-sync-handler
 spec:
-  version: "v1.0.0"
-  image: openfunctiondev/logs-sync-handler:latest
+  version: "v2.0.0"
+  image: openfunctiondev/logs-sync-handler:v2
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunctiondev/builder-go:latest
+    builder: openfunction/builder-go:v2-1.16
     env:
       FUNC_NAME: "LogsHandler"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/logs-handler-function/"
-      revision: "main"
+      revision: "release-0.6"
   serving:
-    runtime: "Knative"
+    runtime: "knative"
     template:
       containers:
         - name: function
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent

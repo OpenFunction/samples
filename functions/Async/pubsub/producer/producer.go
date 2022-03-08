@@ -1,8 +1,9 @@
 // An example, referenced from https://github.com/mchmarny/dapr-demos/tree/master/autoscaling-on-queue
 
-package producer
+package main
 
 import (
+	"context"
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
@@ -16,7 +17,8 @@ import (
 	"syscall"
 	"time"
 
-	ofctx "github.com/OpenFunction/functions-framework-go/context"
+	dapr "github.com/dapr/go-sdk/client"
+	daprd "github.com/dapr/go-sdk/service/grpc"
 	"github.com/google/uuid"
 )
 
@@ -26,23 +28,41 @@ const (
 
 var (
 	logger           = log.New(os.Stdout, "", 0)
-	outputName       = getEnvVar("OUTPUT_NAME", "autoscaling")
+	serviceAddress   = getEnvVar("ADDRESS", ":60034")
+	pubSubName       = getEnvVar("PUBSUB_NAME", "autoscaling-pubsub")
+	topicName        = getEnvVar("TOPIC_NAME", "sample-topic")
 	numOfPublishers  = getEnvIntOrFail("NUMBER_OF_PUBLISHERS", "1")
 	publishFrequency = getEnvDurationOrFail("PUBLISHERS_FREQ", "1s")
 	publishDelay     = getEnvDurationOrFail("PUBLISHERS_DELAY", "10s")
 	logFrequency     = getEnvDurationOrFail("LOG_FREQ", "3s")
 	publishToConsole = getEnvBoolOrFail("PUBLISH_TO_CONSOLE", "false")
+
+	client dapr.Client
 )
 
-func Producer(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
+func main() {
 	if numOfPublishers < 1 {
 		numOfPublishers = 1
 	}
-	logger.Printf("subscription name: %s", outputName)
+	logger.Printf("subscription name: %s", pubSubName)
+	logger.Printf("topic name: %s", topicName)
 	logger.Printf("number of publishers: %d", numOfPublishers)
 	logger.Printf("publish frequency: %v", publishFrequency)
 	logger.Printf("log frequency: %v", logFrequency)
 	logger.Printf("publish delay: %v", publishDelay)
+
+	// create Dapr service
+	s, err := daprd.NewService(serviceAddress)
+	if err != nil {
+		log.Fatalf("failed to start the server: %v", err)
+	}
+
+	c, err := dapr.NewClient()
+	if err != nil {
+		log.Fatalf("error creating Dapr client: %v", err)
+	}
+	client = c
+	defer client.Close()
 
 	// handle signals
 	stop := make(chan os.Signal)
@@ -61,10 +81,14 @@ func Producer(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
 
 	// start producing
 	for i := 1; i <= numOfPublishers; i++ {
-		go publish(&ctx, i, resultCh, stopCh)
+		go publish(i, resultCh, stopCh)
 	}
 
-	return ctx.ReturnOnSuccess(), nil
+	// start the server to handle incoming events
+	if err := s.Start(); err != nil {
+		log.Fatalf("server error: %v", err)
+	}
+
 }
 
 func monitor(resultCh <-chan bool, stopCh <-chan struct{}) {
@@ -95,7 +119,7 @@ func monitor(resultCh <-chan bool, stopCh <-chan struct{}) {
 	}
 }
 
-func publish(ctx *ofctx.Context, index int, resultCh chan<- bool, stopCh <-chan struct{}) {
+func publish(index int, resultCh chan<- bool, stopCh <-chan struct{}) {
 	delayCh := time.NewTicker(publishDelay).C
 	<-delayCh
 
@@ -111,12 +135,7 @@ func publish(ctx *ofctx.Context, index int, resultCh chan<- bool, stopCh <-chan 
 				resultCh <- true
 				continue
 			}
-			if _, err := ctx.Send(outputName, d); err != nil {
-				logger.Printf("send error, %v", err)
-				resultCh <- false
-			} else {
-				resultCh <- true
-			}
+			resultCh <- client.PublishEvent(context.Background(), pubSubName, topicName, d) == nil
 		}
 	}
 }
@@ -125,7 +144,7 @@ func getEventData(index int) []byte {
 	r := requestContent{
 		ID:   fmt.Sprintf("p%d-%s", index, uuid.New().String()),
 		Data: []byte(getData(256)),
-		Time: time.Now().String(),
+		Time: time.Now().UTC().Unix(),
 	}
 
 	// hash the entire message
@@ -152,7 +171,7 @@ type requestContent struct {
 	ID   string `json:"id"`
 	Data []byte `json:"data"`
 	Sha  string `json:"sha"`
-	Time string `json:"time"`
+	Time int64  `json:"time"`
 }
 
 func getEnvVar(key, fallbackValue string) string {

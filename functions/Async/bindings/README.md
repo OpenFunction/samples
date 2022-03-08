@@ -22,7 +22,7 @@ kind: Function
 metadata:
   name: bindings-without-output
 spec:
-  image: "<your registry name>/bindings-without-output:latest"
+  image: "<your registry name>/bindings-without-output:v2"
 ```
 
 Use the following commands to create this Function:
@@ -64,7 +64,7 @@ kind: Function
 metadata:
   name: bindings-with-output
 spec:
-  image: "<your registry name>/bindings-with-output:latest"
+  image: "<your registry name>/bindings-with-output:v2"
 ```
 
 Use the following commands to create this Function:

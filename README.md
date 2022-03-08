@@ -1,9 +1,5 @@
 # OpenFunction function samples
 
-For samples of the latest stable version, please visit here:
-
--> [v0.5.0 samples](https://github.com/openFunction/samples/tree/release-0.5)
-
 ## Function samples
 
 The following are samples of OpenFunction function.

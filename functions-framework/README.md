@@ -34,13 +34,13 @@ The processing in the plugin is as follows:
 plugin-custom
 
 ```go
-func (p *PluginCustom) ExecPreHook(ctx ofctx.Context, plugins map[string]plugin.Plugin) error {
+func (p *PluginCustom) ExecPreHook(ctx ofctx.RuntimeContext, plugins map[string]plugin.Plugin) error {
 	p.stateC = 3
 	p.StateC = 3
 	return nil
 }
 
-func (p *PluginCustom) ExecPostHook(ctx ofctx.Context, plugins map[string]plugin.Plugin) error {
+func (p *PluginCustom) ExecPostHook(ctx ofctx.RuntimeContext, plugins map[string]plugin.Plugin) error {
 	return nil
 }
 ```
@@ -48,14 +48,14 @@ func (p *PluginCustom) ExecPostHook(ctx ofctx.Context, plugins map[string]plugin
 plugin-example
 
 ```go
-func (p *PluginExample) ExecPreHook(ctx ofctx.Context, plugins map[string]plugin.Plugin) error {
+func (p *PluginExample) ExecPreHook(ctx ofctx.RuntimeContext, plugins map[string]plugin.Plugin) error {
 	r := preHookLogic(ctx.Ctx)
 	p.stateA = 1
 	p.stateB = r
 	return nil
 }
 
-func (p *PluginExample) ExecPostHook(ctx ofctx.Context, plugins map[string]plugin.Plugin) error {
+func (p *PluginExample) ExecPostHook(ctx ofctx.RuntimeContext, plugins map[string]plugin.Plugin) error {
 	// Get data from another plugin via Plugin.Get()
 	plgName := "plugin-custom"
 	keyName := "StateC"

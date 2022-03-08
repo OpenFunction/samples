@@ -22,7 +22,7 @@ Follow [this guide](../../../Prerequisites.md#registry-credential) to create a r
 
 ```yaml
 serving:
-  runtime: Async
+  runtime: async
   inputs:
     - name: sample
       component: target-topic
@@ -45,7 +45,7 @@ serving:
   template:
     containers:
       - name: function
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
 ```
 
 Use the following command to create the function:
@@ -84,7 +84,7 @@ In `function-front`, we define an output (`serving.outputs`) that will point to 
 
 ```yaml
   serving:
-    runtime: Knative
+    runtime: knative
     outputs:
       - name: target
         component: kafka-server

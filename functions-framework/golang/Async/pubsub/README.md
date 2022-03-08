@@ -15,25 +15,24 @@ Prepare a context as follows, name it `function.json`. (You can refer to [OpenFu
   "name": "subscriber",
   "version": "v1",
   "requestID": "a0f2ad8d-5062-4812-91e9-95416489fb01",
-  "port": "50002",
+  "port": "50003",
   "inputs": {
     "sub": {
-      "uri": "my_topic",
-      "type": "pubsub",
-      "component": "msg"
+      "uri": "sample-topic",
+      "componentName": "msg",
+      "componentType": "pubsub.kafka"
     }
   },
   "outputs": {},
-  "runtime": "Async",
-  "prePlugins": ["plugin-custom", "plugin-example"],
-  "postPlugins": ["plugin-custom", "plugin-example"]
+  "runtime": "Async"
 }
 ```
 
 Create an environment variable `FUNC_CONTEXT` and assign the above context to it.
 
 ```shell
-export FUNC_CONTEXT='{"name":"subscriber","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"50003","inputs":{"sub":{"uri":"my_topic","type":"pubsub","component":"msg"}},"outputs":{},"runtime":"Async","prePlugins":["plugin-custom","plugin-example"],"postPlugins":["plugin-custom","plugin-example"]}'
+export FUNC_CONTEXT='{"name":"subscriber","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"50003","inputs":{"sub":{"uri":"sample-topic","componentName":"msg","componentType":"pubsub.kafka"}},"outputs":{},"runtime":"Async"}'
+export CONTEXT_MODE='self-host'
 ```
 
 ### Run
@@ -41,14 +40,14 @@ export FUNC_CONTEXT='{"name":"subscriber","version":"v1","requestID":"a0f2ad8d-5
 Start the service and watch the logs.
 
 ```shell
-cd subscriber/
+cd sub/
 go mod tidy
 dapr run --app-id subscriber \
     --app-protocol grpc \
     --app-port 50003 \
     --dapr-grpc-port 50001 \
     --components-path ../../components \
-    go run ./main.go ./plugin.go
+    go run ./main.go
 ```
 
 ## Producer
@@ -63,24 +62,28 @@ You also need a definition of producer.
   "version": "v1",
   "requestID": "a0f2ad8d-5062-4812-91e9-95416489fb01",
   "port": "50004",
-  "inputs": {},
-  "outputs": {
-    "pub": {
-      "uri": "my_topic",
-      "component": "msg",
-      "type": "pubsub"
+  "inputs": {
+    "cron": {
+      "componentName": "cron_input",
+      "componentType": "bindings.cron"
     }
   },
-  "runtime": "Async",
-  "prePlugins": ["plugin-custom", "plugin-example"],
-  "postPlugins": ["plugin-custom", "plugin-example"]
+  "outputs": {
+    "pub": {
+      "uri": "sample-topic",
+      "componentName": "msg",
+      "componentType": "pubsub.kafka"
+    }
+  },
+  "runtime": "Async"
 }
 ```
 
 Create an environment variable `FUNC_CONTEXT` and assign the above context to it.
 
 ```shell
-export FUNC_CONTEXT='{"name":"producer","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"50004","inputs":{},"outputs":{"pub":{"uri":"my_topic","component":"msg","type":"pubsub"}},"runtime":"Async","prePlugins":["plugin-custom","plugin-example"],"postPlugins":["plugin-custom","plugin-example"]}'
+export FUNC_CONTEXT='{"name":"producer","version":"v1","requestID":"a0f2ad8d-5062-4812-91e9-95416489fb01","port":"50004","inputs":{"cron":{"componentName":"cron_input","componentType":"bindings.cron"}},"outputs":{"pub":{"uri":"sample-topic","componentName":"msg","componentType":"pubsub.kafka"}},"runtime":"Async"}'
+export CONTEXT_MODE='self-host'
 export DAPR_GRPC_PORT="50002"
 ```
 
@@ -89,14 +92,14 @@ export DAPR_GRPC_PORT="50002"
 Start the service with another terminal to publish message.
 
 ```shell
-cd producer/
+cd pub/
 go mod tidy
 dapr run --app-id producer \
     --app-protocol grpc \
     --app-port 50004 \
     --dapr-grpc-port 50002 \
     --components-path ../../components \
-    go run ./main.go ./plugin.go
+    go run ./main.go
 ```
 
 ## Results
@@ -105,22 +108,19 @@ dapr run --app-id producer \
 <summary>View detailed producer logs.</summary>
 
 ```shell
-== APP == I0111 09:54:53.957079  349657 framework.go:83] exec pre hooks: plugin-custom of version v1
-== APP == I0111 09:54:53.957109  349657 framework.go:83] exec pre hooks: plugin-example of version v1
-== APP == subscription name: pub
-== APP == number of publishers: 1
-== APP == publish frequency: 1s
-== APP == log frequency: 3s
-== APP == publish delay: 10s
-== APP == I0111 09:54:53.957774  349657 framework.go:94] exec post hooks: plugin-custom of version v1
-== APP == I0111 09:54:53.957801  349657 framework.go:94] exec post hooks: plugin-example of version v1
-== APP == I0111 09:54:53.957926  349657 plugin-example.go:79] the sum is: 4
-== APP ==          0 published,   0/sec,   0 errors
-== APP ==          0 published,   0/sec,   0 errors
-== APP ==          0 published,   0/sec,   0 errors
-== APP ==          1 published,   0/sec,   0 errors
-== APP ==          4 published,   0/sec,   0 errors
-== APP ==          7 published,   0/sec,   0 errors
+== APP == dapr client initializing for: 127.0.0.1:50002
+== APP == I0308 12:00:57.853501 2463688 framework.go:110] Plugins for pre-hook stage:
+== APP == I0308 12:00:57.853575 2463688 framework.go:118] Plugins for post-hook stage:
+== APP == I0308 12:00:57.855762 2463688 async.go:111] registered bindings handler: cron_input
+== APP == I0308 12:00:57.855780 2463688 async.go:53] Async Function serving grpc: listening on port 50004
+INFO[0001] application discovered on port 50004          app_id=producer instance=crab scope=dapr.runtime type=log ver=1.5.1
+INFO[0001] actor runtime started. actor idle timeout: 1h0m0s. actor scan interval: 30s  app_id=producer instance=crab scope=dapr.runtime.actor type=log ver=1.5.1
+INFO[0001] dapr initialized. Status: Running. Init Elapsed 1666.519766ms  app_id=producer instance=crab scope=dapr.runtime type=log ver=1.5.1
+INFO[0001] placement tables updated, version: 0          app_id=producer instance=crab scope=dapr.runtime.actor.internal.placement type=log ver=1.5.1
+== APP == I0308 12:00:59.008107 2463688 pub.go:22] send msg and receive result:
+== APP == I0308 12:01:01.003672 2463688 pub.go:22] send msg and receive result:
+== APP == I0308 12:01:03.010105 2463688 pub.go:22] send msg and receive result:
+== APP == I0308 12:01:05.028111 2463688 pub.go:22] send msg and receive result:
 ```
 </details>
 
@@ -128,12 +128,24 @@ dapr run --app-id producer \
 <summary>View detailed subscriber logs.</summary>
 
 ```shell
-== APP == I0111 09:55:11.960645  348060 framework.go:83] exec pre hooks: plugin-custom of version v1
-== APP == I0111 09:55:11.960664  348060 framework.go:83] exec pre hooks: plugin-example of version v1
-== APP == 2022/01/11 09:55:11 event - Data: {"id":"p1-916f637c-7460-4db3-be3e-85893890ec7e","data":"MlpSUzV6cTRiTmszb1NLWmxhZHZKRjBlN095ZjBNWGJucWJyMGlabTE3Y0R2amR4dmZoWENTVXdkNWRMc0lQVUdBUkJ4aEFTSmNYZWtVSkkxRHdNZGhUOGplVXhnS3ZDTkJ5QlY2UkRQUzM3eWlIVWVkaVVYVld2SGZabXNFVzZMR1dkSENkeFVHUjBLaThpeTA1YlFDS1VYOWZlTjlpOVZXSlFNMTF4T3g1V3V6T1ZkMFVndEs3MGJHbEtSNTVQcE1lNXJEOUpyTkVCdFRIdEgzMUZwV21xVmlRYWxlazlBVDNOYjZZeUdLY1FlUm1xQ2Z3SnZtVml2dlRNYzJiZw==","sha":"B\ufffdV\t\ufffdW\u0001!F\u0005C\ufffd\ufffd\ufffd+\ufffd!\ufffd]\ufffd\ufffd\ufffdi\ufffde~\ufffd\ufffd\ufffd\ufffd\ufffdF","time":"2022-01-11 09:55:11.959063585 +0800 CST m=+18.007867886"}
-== APP == I0111 09:55:11.960680  348060 framework.go:94] exec post hooks: plugin-custom of version v1
-== APP == I0111 09:55:11.960686  348060 framework.go:94] exec post hooks: plugin-example of version v1
-== APP == I0111 09:55:11.960705  348060 plugin-example.go:79] the sum is: 4
+== APP == I0308 11:59:54.548833 2459950 framework.go:110] Plugins for pre-hook stage:
+== APP == I0308 11:59:54.549080 2459950 framework.go:118] Plugins for post-hook stage:
+== APP == dapr client initializing for: 127.0.0.1:50001
+== APP == I0308 11:59:54.555141 2459950 async.go:143] registered pubsub handler: msg, topic: sample-topic
+== APP == I0308 11:59:54.555166 2459950 async.go:53] Async Function serving grpc: listening on port 50003
+INFO[0006] application discovered on port 50003          app_id=subscriber instance=crab scope=dapr.runtime type=log ver=1.5.1
+INFO[0006] actor runtime started. actor idle timeout: 1h0m0s. actor scan interval: 30s  app_id=subscriber instance=crab scope=dapr.runtime.actor type=log ver=1.5.1
+INFO[0006] app is subscribed to the following topics: [sample-topic] through pubsub=msg  app_id=subscriber instance=crab scope=dapr.runtime type=log ver=1.5.1
+INFO[0006] placement tables updated, version: 0          app_id=subscriber instance=crab scope=dapr.runtime.actor.internal.placement type=log ver=1.5.1
+INFO[0009] dapr initialized. Status: Running. Init Elapsed 9673.663393ms  app_id=subscriber instance=crab scope=dapr.runtime type=log ver=1.5.1
+== APP == 2022/03/08 12:00:59 event - Data: {"hello":"world"}
+== APP == 2022/03/08 12:00:59 event - Data: map[hello:world]
+== APP == 2022/03/08 12:01:01 event - Data: {"hello":"world"}
+== APP == 2022/03/08 12:01:01 event - Data: map[hello:world]
+== APP == 2022/03/08 12:01:03 event - Data: {"hello":"world"}
+== APP == 2022/03/08 12:01:03 event - Data: map[hello:world]
+== APP == 2022/03/08 12:01:05 event - Data: {"hello":"world"}
+== APP == 2022/03/08 12:01:05 event - Data: map[hello:world]
 ```
 </details>
 

@@ -14,7 +14,7 @@ metadata:
   name: python-sample
 spec:
   version: "v1.0.0"
-  image: "<your registry name>/sample-python-func:latest"
+  image: "<your registry name>/sample-python-func:v1"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
@@ -27,11 +27,12 @@ spec:
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/hello-world-python"
+      revision: "release-0.6"
   serving:
-    runtime: Knative # default to Knative
+    runtime: knative # default to knative
     template:
       containers:
         - name: function
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
 ```
 

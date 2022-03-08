@@ -1,0 +1,14 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: msg
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+    - name: brokers
+      value: "kafka-server-kafka-brokers:9092"
+    - name: consumerGroup
+      value: "group1"
+    - name: authRequired
+      value: "false"
