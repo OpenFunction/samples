@@ -3,12 +3,12 @@ kind: Function
 metadata:
   name: bindings-without-output
 spec:
-  version: "v1.0.0"
+  version: "v2.0.0"
   image: openfunctiondev/bindings-without-output:latest
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunctiondev/builder-go:latest
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "BindingsNoOutput"
       FUNC_CLEAR_SOURCE: "true"
@@ -21,11 +21,10 @@ spec:
       containers:
         - name: function
           imagePullPolicy: Always
-    runtime: "Async"
+    runtime: "async"
     inputs:
       - name: input
         component: cron
-        type: bindings
     bindings:
       cron:
         type: bindings.cron

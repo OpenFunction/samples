@@ -11,12 +11,12 @@ metadata:
       - plugin-custom
       - plugin-example
 spec:
-  version: "v1.0.0"
+  version: "v2.0.0"
   image: openfunctiondev/bindings-with-output:latest
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunctiondev/builder-go:latest
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "BindingsOutput"
       FUNC_CLEAR_SOURCE: "true"
@@ -29,15 +29,13 @@ spec:
       containers:
         - name: function
           imagePullPolicy: Always
-    runtime: "Async"
+    runtime: "async"
     inputs:
       - name: cron
         component: cron
-        type: bindings
     outputs:
       - name: target
         component: kafka-server
-        type: bindings
         operation: "create"
     bindings:
       cron:

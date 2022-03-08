@@ -8,14 +8,16 @@ spec:
   imageCredentials:
     name: push-secret
   build:
-    builder: openfunctiondev/builder-go:latest
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "Target"
+      FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/function-with-dapr/output-target"
+      revision: "main"
   serving:
-    runtime: Async
+    runtime: async
     inputs:
       - name: greeting
         component: target-topic

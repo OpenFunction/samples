@@ -27,8 +27,9 @@ spec:
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/hello-world-python"
+      revision: "main"
   serving:
-    runtime: Knative # default to Knative
+    runtime: knative # default to knative
     template:
       containers:
         - name: function

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer
+  labels:
+    app: producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer
+  template:
+    metadata:
+      labels:
+        app: producer
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "producer"
+        dapr.io/app-port: "60034"
+        dapr.io/log-as-json: "true"
+        dapr.io/app-protocol: "grpc"
+    spec:
+      containers:
+        - name: producer
+          image: openfunctiondev/v1beta1-autoscaling-producer:latest
+          imagePullPolicy: Always
+          env:
+            - name: PUBSUB_NAME
+              value: "autoscaling-producer"
+            - name: TOPIC_NAME
+              value: "sample-topic"
+          ports:
+            - containerPort: 60034
+              name: function-port
+              protocol: TCP
+---
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: autoscaling-producer
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+    - name: brokers
+      value: "kafka-server-kafka-brokers:9092"
+    - name: consumerGroup
+      value: "producer"
+    - name: authRequired
+      value: "false"
+    - name: allowedTopics
+      value: "sample-topic"

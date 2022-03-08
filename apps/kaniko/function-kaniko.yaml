@@ -13,12 +13,13 @@ spec:
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "apps/with-dockerfile"
+      revision: "main"
     shipwright:
       strategy:
         name: kaniko
         kind: ClusterBuildStrategy
   serving:
-    runtime: Knative
+    runtime: knative
     template:
       containers:
         - name: function

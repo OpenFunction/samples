@@ -13,8 +13,9 @@ spec:
     srcRepo:
       url: "https://github.com/buildpacks/samples.git"
       sourceSubPath: "apps/java-maven"
+      revision: "main"
   serving:
-    runtime: "Knative" # default to Knative
+    runtime: "knative" # default to knative
     template:
       containers:
         - name: function

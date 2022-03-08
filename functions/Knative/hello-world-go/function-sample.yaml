@@ -3,8 +3,8 @@ kind: Function
 metadata:
   name: function-sample
 spec:
-  version: "v1.0.0"
-  image: "openfunctiondev/sample-go-func:v1"
+  version: "v2.0.0"
+  image: "openfunctiondev/sample-go-func:latest"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
@@ -18,12 +18,8 @@ spec:
       sourceSubPath: "functions/Knative/hello-world-go"
       revision: "main"
   serving:
-#    template:
-#      containers:
-#        - name: function
-#          imagePullPolicy: IfNotPresent
-    runtime: "Knative"
     template:
       containers:
         - name: function
           imagePullPolicy: Always
+    runtime: "knative"

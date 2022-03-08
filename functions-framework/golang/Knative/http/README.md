@@ -24,7 +24,7 @@ export FUNC_CONTEXT='{"name":"function-demo","version":"v1.0.0","port":"8080","r
 Start the function:
 
 ```shell
-go run main.go plugin.go
+go run main.go
 ```
 
 Access the function:

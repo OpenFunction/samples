@@ -19,15 +19,16 @@ spec:
     name: push-secret
   port: 8080 # default to 8080
   build:
-    builder: "openfunction/builder-node:v2-16.13"
+    builder: "openfunction/builder-node:latest"
     env:
       FUNC_NAME: "helloWorld"
       FUNC_TYPE: "http"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/hello-world-node/commonjs"
+      revision: "main"
   serving:
-    runtime: "Knative" # default to Knative
+    runtime: "knative" # default to knative
     template:
       containers:
         - name: function

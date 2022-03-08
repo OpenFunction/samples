@@ -32,13 +32,17 @@ func (p *PluginCustom) Version() string {
 	return Version
 }
 
-func (p *PluginCustom) ExecPreHook(ctx ofctx.Context, plugins map[string]plugin.Plugin) error {
+func (p *PluginCustom) Init() plugin.Plugin {
+	return New()
+}
+
+func (p *PluginCustom) ExecPreHook(ctx ofctx.RuntimeContext, plugins map[string]plugin.Plugin) error {
 	p.stateC = 3
 	p.StateC = 3
 	return nil
 }
 
-func (p *PluginCustom) ExecPostHook(ctx ofctx.Context, plugins map[string]plugin.Plugin) error {
+func (p *PluginCustom) ExecPostHook(ctx ofctx.RuntimeContext, plugins map[string]plugin.Plugin) error {
 	return nil
 }
 

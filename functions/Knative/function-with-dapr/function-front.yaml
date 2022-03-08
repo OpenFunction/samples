@@ -17,21 +17,22 @@ spec:
     name: push-secret
   port: 8080 # default to 8080
   build:
-    builder: openfunctiondev/builder-go:latest
+    builder: openfunction/builder-go:latest
     env:
       FUNC_NAME: "Sender"
+      FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/Knative/function-with-dapr"
+      revision: "main"
   serving:
     scaleOptions:
       minCount: 0
       maxCount: 5
-    runtime: Knative
+    runtime: knative
     outputs:
       - name: target
         component: kafka-server
-        type: bindings
         operation: "create"
     bindings:
       kafka-server:
