@@ -27,8 +27,8 @@ spec:
       revision: "main"
   serving:
     scaleOptions:
-      minCount: 0
-      maxCount: 5
+      minReplicas: 0
+      maxReplicas: 5
     runtime: knative
     outputs:
       - name: target
