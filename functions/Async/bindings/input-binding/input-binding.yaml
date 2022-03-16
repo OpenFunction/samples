@@ -1,7 +1,7 @@
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: output-target
+  name: input-binding
 spec:
   version: "v1.0.0"
   image: openfunctiondev/bindings-output-target:v2
@@ -14,14 +14,29 @@ spec:
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Knative/function-with-dapr/output-target"
+      sourceSubPath: "functions/Async/bindings/input-binding"
       revision: "release-0.6"
   serving:
     runtime: async
+    scaleOptions:
+      minReplicas: 0
+      maxReplicas: 10 
+      keda:
+        scaledObject:
+          pollingInterval: 15
+          # minReplicaCount: 0
+          # maxReplicaCount: 10
+          cooldownPeriod: 30
+    triggers:
+      - type: kafka
+        metadata:
+          topic: sample-topic
+          bootstrapServers: kafka-server-kafka-brokers.default.svc:9092
+          consumerGroup: output-target
+          lagThreshold: "10"
     inputs:
       - name: greeting
         component: target-topic
-        type: bindings
     bindings:
       target-topic:
         type: bindings.kafka
