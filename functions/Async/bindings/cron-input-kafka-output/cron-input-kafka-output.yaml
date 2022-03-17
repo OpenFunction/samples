@@ -1,7 +1,7 @@
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: bindings-with-output
+  name: cron-input-kafka-output
   annotations:
     plugins: |
       pre:
@@ -12,17 +12,17 @@ metadata:
       - plugin-example
 spec:
   version: "v2.0.0"
-  image: openfunctiondev/bindings-with-output:latest
+  image: openfunctiondev/cron-input-kafka-output:latest
   imageCredentials:
     name: push-secret
   build:
     builder: openfunction/builder-go:latest
     env:
-      FUNC_NAME: "BindingsOutput"
+      FUNC_NAME: "HandleCronInput"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Async/bindings/with-output/"
+      sourceSubPath: "functions/Async/bindings/cron-input-kafka-output"
       revision: "main"
   serving:
     template:
@@ -34,7 +34,7 @@ spec:
       - name: cron
         component: cron
     outputs:
-      - name: target
+      - name: sample
         component: kafka-server
         operation: "create"
     bindings:

@@ -1,20 +1,20 @@
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: bindings-without-output
+  name: cron-input
 spec:
   version: "v2.0.0"
-  image: openfunctiondev/bindings-without-output:latest
+  image: openfunctiondev/cron-input:latest
   imageCredentials:
     name: push-secret
   build:
     builder: openfunction/builder-go:latest
     env:
-      FUNC_NAME: "BindingsNoOutput"
+      FUNC_NAME: "HandleCronInput"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Async/bindings/without-output"
+      sourceSubPath: "functions/Async/bindings/cron-input"
       revision: "main"
   serving:
     template:

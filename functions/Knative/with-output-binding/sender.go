@@ -1,4 +1,4 @@
-package bindings
+package sender
 
 import (
 	"encoding/json"
@@ -7,20 +7,21 @@ import (
 	ofctx "github.com/OpenFunction/functions-framework-go/context"
 )
 
-func BindingsOutput(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
+func ForwardToKafka(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
 	var greeting []byte
 	if in != nil {
-		log.Printf("binding - Data: %s", in)
+		log.Printf("http - Data: %s", in)
 		greeting = in
 	} else {
-		log.Print("binding - Data: Received")
+		log.Print("http - Data: Received")
 		greeting, _ = json.Marshal(map[string]string{"message": "Hello"})
 	}
 
-	_, err := ctx.Send("sample", greeting)
+	_, err := ctx.Send("target", greeting)
 	if err != nil {
-		log.Printf("Error: %v\n", err)
+		log.Print(err.Error())
 		return ctx.ReturnOnInternalError(), err
 	}
+
 	return ctx.ReturnOnSuccess(), nil
 }
