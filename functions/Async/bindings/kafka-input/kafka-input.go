@@ -1,4 +1,4 @@
-package target
+package bindings
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	ofctx "github.com/OpenFunction/functions-framework-go/context"
 )
 
-func Target(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
+func HandleKafkaInput(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
 	var msg Message
 	err := json.Unmarshal(in, &msg)
 	if err != nil {

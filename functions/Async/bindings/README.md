@@ -12,23 +12,23 @@ Follow [this guide](../../../Prerequisites.md#registry-credential) to create a r
 
 ### Input only sample
 
-We will use the sample in the `without-output` directory, which will be triggered by Dapr's `bindings.cron` component at a frequency of once every 2 seconds.
+We will use the sample in the `cron-input` directory, which will be triggered by Dapr's `bindings.cron` component at a frequency of once every 2 seconds.
 
-Modify the `spec.image` field in `without-output/function-bindings.yaml` to your own container registry address:
+Modify the `spec.image` field in `cron-input/cron-input.yaml` to your own container registry address:
 
 ```yaml
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: bindings-without-output
+  name: cron-input
 spec:
-  image: "<your registry name>/bindings-without-output:v2"
+  image: "<your registry name>/cron-input:latest"
 ```
 
 Use the following commands to create this Function:
 
 ```shell
-kubectl apply -f without-output/function-bindings.yaml
+kubectl apply -f cron-input/cron-input.yaml
 ```
 
 Afterwards, use the following command to observe the log of the function:
@@ -36,7 +36,7 @@ Afterwards, use the following command to observe the log of the function:
 ```shell
 kubectl logs -f \
   $(kubectl get po -l \
-  openfunction.io/serving=$(kubectl get functions bindings-without-output -o jsonpath='{.status.serving.resourceRef}') \
+  openfunction.io/serving=$(kubectl get functions cron-input -o jsonpath='{.status.serving.resourceRef}') \
   -o jsonpath='{.items[0].metadata.name}') \
   function
 ```
@@ -54,23 +54,23 @@ I0125 07:51:47.615373       1 async.go:39] Async Function serving grpc: listenin
 
 ### Input and Output
 
-We will use the sample in the `with-output` directory, which will be triggered by Dapr's `bindings.cron` component at a frequency of once every 2 seconds. After being triggered, it will send a greeting to another service via Dapr's `bindings.kafka` component. 
+We will use the sample in the `cron-input-kafka-output` directory, which will be triggered by Dapr's `bindings.cron` component at a frequency of once every 2 seconds. After being triggered, it will send a greeting to another service via Dapr's `bindings.kafka` component. 
 
-Modify the `spec.image` field in `without-output/function-bindings.yaml` to your own container registry address:
+Modify the `spec.image` field in `cron-input-kafka-output/cron-input-kafka-output.yaml` to your own container registry address:
 
 ```yaml
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: bindings-with-output
+  name: cron-input-kafka-output
 spec:
-  image: "<your registry name>/bindings-with-output:v2"
+  image: "<your registry name>/cron-input-kafka-output:latest"
 ```
 
 Use the following commands to create this Function:
 
 ```shell
-kubectl apply -f with-output/function-bindings.yaml
+kubectl apply -f cron-input-kafka-output/cron-input-kafka-output.yaml
 ```
 
 Afterwards, use the following command to observe the log of the function:
@@ -78,7 +78,7 @@ Afterwards, use the following command to observe the log of the function:
 ```shell
 kubectl logs -f \
   $(kubectl get po -l \
-  openfunction.io/serving=$(kubectl get functions bindings-with-output -o jsonpath='{.status.serving.resourceRef}') \
+  openfunction.io/serving=$(kubectl get functions cron-input-kafka-output -o jsonpath='{.status.serving.resourceRef}') \
   -o jsonpath='{.items[0].metadata.name}') \
   function
 ```
@@ -100,10 +100,10 @@ I0125 07:42:38.008694       1 plugin-example.go:83] the sum is: 2
 I0125 07:42:40.004346       1 plugin-example.go:83] the sum is: 2
 ```
 
-Now we need to start the output target function.
+Now we need to start the kafka-input function.
 
 ```shell
-kubectl apply -f with-output/output/output-target.yaml
+kubectl apply -f kafka-input/kafka-input.yaml
 ```
 
 Use the following command to observe the log of the function:
@@ -111,7 +111,7 @@ Use the following command to observe the log of the function:
 ```shell
 kubectl logs -f \
   $(kubectl get po -l \
-  openfunction.io/serving=$(kubectl get functions output-target -o jsonpath='{.status.serving.resourceRef}') \
+  openfunction.io/serving=$(kubectl get functions kafka-input -o jsonpath='{.status.serving.resourceRef}') \
   -o jsonpath='{.items[0].metadata.name}') \
   function
 ```

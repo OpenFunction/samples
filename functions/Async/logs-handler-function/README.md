@@ -24,4 +24,4 @@ Create logs handler function:
 kubectl apply -f logs-handler-function.yaml
 ```
 
-The logs handler function is then driven by messages from the logs topic in Kafka.
+The logs handler functions will be triggered by messages from the logs topic in Kafka.

@@ -2,7 +2,7 @@
 
 Knative runtime based functions can also interact with middleware via dapr components just like the Async functions.
 
-In this case, we will create two functions: `function-front` and `output-target`
+In this case, we will create two functions: `function-front` and `kafka-input`
 
 The relationship between these functions is shown in the following figure:
 
@@ -16,9 +16,9 @@ Follow [this guide](../../../Prerequisites.md#registry-credential) to create a r
 
 ## Deployment
 
-### output-target
+### kafka-input
 
-`output-target` defines an input source (`serving.inputs`). This input source points to a dapr component of the Kafka server. This means that the `output-target` will be driven by events in the "sample-topic" topic of the Kafka server.
+[kafka-input](../../Async/bindings/kafka-input/kafka-input.yaml) defines an input source (`serving.inputs`). This input source points to a dapr component of the Kafka server. This means that the `kafka-input` will be driven by events in the "sample-topic" topic of the Kafka server.
 
 ```yaml
 serving:
@@ -37,7 +37,7 @@ serving:
         - name: topics
           value: "sample-topic"
         - name: consumerGroup
-          value: "output-target"
+          value: "kafka-input"
         - name: publishTopic
           value: "sample-topic"
         - name: authRequired
@@ -51,7 +51,7 @@ serving:
 Use the following command to create the function:
 
 ```shell
-kubectl apply -f output/output-target.yaml
+kubectl apply -f ../../Async/bindings/kafka-input/kafka-input.yaml
 ```
 
 ### function-front
@@ -134,7 +134,7 @@ Check the current function status:
 
 NAME             BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         URL                                             AGE
 function-front   Succeeded    Running        builder-bhbtk   serving-vc6jw   http://openfunction.io/default/function-front   2m41s
-output-target    Succeeded    Running        builder-dprfd   serving-75vrt                                                   2m21s
+kafka-input    Succeeded    Running        builder-dprfd   serving-75vrt                                                   2m21s
 ```
 
 The `URL` is the address provided by the OpenFunction Domain that can be accessed. To access the function via this URL address, you need to make sure that DNS can resolve this address.
@@ -176,12 +176,12 @@ I0125 06:51:55.585179       1 knative.go:46] Knative Function serving http: list
 I0125 06:52:02.246450       1 plugin-example.go:83] the sum is: 2
 ```
 
-Query `output-target`'s log:
+Query `kafka-input`'s log:
 
 ```shell
 kubectl logs -f \
   $(kubectl get po -l \
-  openfunction.io/serving=$(kubectl get functions output-target -o jsonpath='{.status.serving.resourceRef}') \
+  openfunction.io/serving=$(kubectl get functions kafka-input -o jsonpath='{.status.serving.resourceRef}') \
   -o jsonpath='{.items[0].metadata.name}') \
   function
 ```

@@ -19,11 +19,11 @@ spec:
   build:
     builder: openfunction/builder-go:v2-1.16
     env:
-      FUNC_NAME: "Sender"
+      FUNC_NAME: "ForwardToKafka"
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Knative/function-with-dapr"
+      sourceSubPath: "functions/Knative/with-output-binding"
       revision: "release-0.6"
   serving:
     scaleOptions:

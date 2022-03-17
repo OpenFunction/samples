@@ -1,4 +1,4 @@
-package sender
+package bindings
 
 import (
 	"encoding/json"
@@ -7,21 +7,20 @@ import (
 	ofctx "github.com/OpenFunction/functions-framework-go/context"
 )
 
-func Sender(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
+func HandleCronInput(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
 	var greeting []byte
 	if in != nil {
-		log.Printf("http - Data: %s", in)
+		log.Printf("binding - Data: %s", in)
 		greeting = in
 	} else {
-		log.Print("http - Data: Received")
+		log.Print("binding - Data: Received")
 		greeting, _ = json.Marshal(map[string]string{"message": "Hello"})
 	}
 
-	_, err := ctx.Send("target", greeting)
+	_, err := ctx.Send("sample", greeting)
 	if err != nil {
-		log.Print(err.Error())
+		log.Printf("Error: %v\n", err)
 		return ctx.ReturnOnInternalError(), err
 	}
-
 	return ctx.ReturnOnSuccess(), nil
 }
