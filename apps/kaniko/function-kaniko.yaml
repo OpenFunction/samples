@@ -13,7 +13,7 @@ spec:
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "apps/with-dockerfile"
-      revision: "main"
+      revision: "release-0.6"
     shipwright:
       strategy:
         name: kaniko

@@ -24,7 +24,7 @@ spec:
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/knative/with-output-binding"
-      revision: "main"
+      revision: "release-0.6"
   serving:
     scaleOptions:
       minReplicas: 0
