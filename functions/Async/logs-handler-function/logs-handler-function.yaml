@@ -16,7 +16,7 @@ spec:
       # FUNC_GOPROXY: "https://goproxy.cn"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Async/logs-handler-function/"
+      sourceSubPath: "functions/async/logs-handler-function/"
       revision: "main"
   serving:
     runtime: "async"

@@ -22,7 +22,7 @@ spec:
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Async/bindings/cron-input-kafka-output"
+      sourceSubPath: "functions/async/bindings/cron-input-kafka-output"
       revision: "main"
   serving:
     template:

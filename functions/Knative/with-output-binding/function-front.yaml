@@ -23,7 +23,7 @@ spec:
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Knative/with-output-binding"
+      sourceSubPath: "functions/knative/with-output-binding"
       revision: "main"
   serving:
     scaleOptions:

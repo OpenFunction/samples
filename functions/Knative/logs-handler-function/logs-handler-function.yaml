@@ -14,7 +14,7 @@ spec:
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Knative/logs-handler-function/"
+      sourceSubPath: "functions/knative/logs-handler-function/"
       revision: "main"
   serving:
     runtime: "knative"

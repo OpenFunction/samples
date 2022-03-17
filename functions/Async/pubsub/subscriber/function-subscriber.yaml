@@ -16,7 +16,7 @@ spec:
       # FUNC_GOPROXY: "https://goproxy.cn"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Async/pubsub/subscriber"
+      sourceSubPath: "functions/async/pubsub/subscriber"
       revision: "main"
   serving:
     runtime: "async"

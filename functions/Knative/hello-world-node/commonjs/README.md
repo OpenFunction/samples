@@ -25,7 +25,7 @@ spec:
       FUNC_TYPE: "http"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Knative/hello-world-node/commonjs"
+      sourceSubPath: "functions/knative/hello-world-node/commonjs"
       revision: "main"
   serving:
     runtime: "knative" # default to knative

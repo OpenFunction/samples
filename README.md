@@ -8,23 +8,23 @@ For samples of the latest stable version, please visit here:
 
 The following are samples of OpenFunction function.
 
-We currently support two kinds of runtime, Knative and Async.
+We currently support two kinds of runtime, knative and async.
 
 ### Knative runtime
 
-- ["Hello world" in go](functions/Knative/hello-world-go)
-- ["Hello world" in java](functions/Knative/hello-world-java)
-- ["Hello world" in python](functions/Knative/hello-world-python)
-- ["Hello world" in node](functions/Knative/hello-world-node)
-- ["Hello world" in dotnet](functions/Knative/hello-world-dotnet)
-- [Azure function sample](functions/Knative/azure-func-go)
-- [Logs handler function](functions/Knative/logs-handler-function)
+- ["Hello world" in go](functions/knative/hello-world-go)
+- ["Hello world" in java](functions/knative/hello-world-java)
+- ["Hello world" in python](functions/knative/hello-world-python)
+- ["Hello world" in node](functions/knative/hello-world-node)
+- ["Hello world" in dotnet](functions/knative/hello-world-dotnet)
+- [Azure function sample](functions/knative/azure-func-go)
+- [Logs handler function](functions/knative/logs-handler-function)
 
 ### Async runtime
 
-- Async bindings sample in [go](functions/Async/bindings)
-- Async pubsub sample in [go](functions/Async/pubsub)
-- Logs handler function [go](functions/Async/logs-handler-function)
+- Async bindings sample in [go](functions/async/bindings)
+- Async pubsub sample in [go](functions/async/pubsub)
+- Logs handler function [go](functions/async/logs-handler-function)
 
 ## Application samples
 
