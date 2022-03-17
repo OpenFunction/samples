@@ -1,0 +1,60 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: cron-input-kafka-output
+  annotations:
+    plugins: |
+      pre:
+      - plugin-custom
+      - plugin-example
+      post:
+      - plugin-custom
+      - plugin-example
+spec:
+  version: "v2.0.0"
+  image: openfunctiondev/cron-input-kafka-output:latest
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: openfunction/builder-go:latest
+    env:
+      FUNC_NAME: "HandleCronInput"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/async/bindings/cron-input-kafka-output"
+      revision: "main"
+  serving:
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+    runtime: "async"
+    inputs:
+      - name: cron
+        component: cron
+    outputs:
+      - name: sample
+        component: kafka-server
+        operation: "create"
+    bindings:
+      cron:
+        type: bindings.cron
+        version: v1
+        metadata:
+        - name: schedule
+          value: "@every 2s"
+      kafka-server:
+        type: bindings.kafka
+        version: v1
+        metadata:
+        - name: brokers
+          value: "kafka-server-kafka-brokers:9092"
+        - name: topics
+          value: "sample-topic"
+        - name: consumerGroup
+          value: "bindings-with-output"
+        - name: publishTopic
+          value: "sample-topic"
+        - name: authRequired
+          value: "false"

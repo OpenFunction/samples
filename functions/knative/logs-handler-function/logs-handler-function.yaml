@@ -1,0 +1,24 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: logs-sync-handler
+spec:
+  version: "v2.0.0"
+  image: openfunctiondev/logs-sync-handler:latest
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: openfunction/builder-go:latest
+    env:
+      FUNC_NAME: "LogsHandler"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/knative/logs-handler-function/"
+      revision: "main"
+  serving:
+    runtime: "knative"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always

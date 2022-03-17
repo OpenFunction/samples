@@ -1,0 +1,55 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: function-front
+  annotations:
+    plugins: |
+      pre:
+      - plugin-custom
+      - plugin-example
+      post:
+      - plugin-custom
+      - plugin-example
+spec:
+  version: "v1.0.0"
+  image: "openfunctiondev/sample-knative-dapr:latest"
+  imageCredentials:
+    name: push-secret
+  port: 8080 # default to 8080
+  build:
+    builder: openfunction/builder-go:latest
+    env:
+      FUNC_NAME: "ForwardToKafka"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/knative/with-output-binding"
+      revision: "main"
+  serving:
+    scaleOptions:
+      minReplicas: 0
+      maxReplicas: 5
+    runtime: knative
+    outputs:
+      - name: target
+        component: kafka-server
+        operation: "create"
+    bindings:
+      kafka-server:
+        type: bindings.kafka
+        version: v1
+        metadata:
+          - name: brokers
+            value: "kafka-server-kafka-brokers:9092"
+          - name: authRequired
+            value: "false"
+          - name: publishTopic
+            value: "sample-topic"
+          - name: topics
+            value: "sample-topic"
+          - name: consumerGroup
+            value: "function-front"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always

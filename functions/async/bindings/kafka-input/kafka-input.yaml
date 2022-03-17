@@ -1,0 +1,58 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: kafka-input
+spec:
+  version: "v1.0.0"
+  image: openfunctiondev/kafka-input:latest
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: openfunction/builder-go:latest
+    env:
+      FUNC_NAME: "HandleKafkaInput"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/async/bindings/kafka-input"
+      revision: "main"
+  serving:
+    runtime: async
+    scaleOptions:
+      minReplicas: 0
+      maxReplicas: 10 
+      keda:
+        scaledObject:
+          pollingInterval: 15
+          # minReplicaCount: 0
+          # maxReplicaCount: 10
+          cooldownPeriod: 45
+    triggers:
+      - type: kafka
+        metadata:
+          topic: sample-topic
+          bootstrapServers: kafka-server-kafka-brokers.default.svc:9092
+          consumerGroup: kafka-input
+          lagThreshold: "20"
+    inputs:
+      - name: greeting
+        component: target-topic
+    bindings:
+      target-topic:
+        type: bindings.kafka
+        version: v1
+        metadata:
+          - name: brokers
+            value: "kafka-server-kafka-brokers:9092"
+          - name: topics
+            value: "sample-topic"
+          - name: consumerGroup
+            value: "kafka-input"
+          - name: publishTopic
+            value: "sample-topic"
+          - name: authRequired
+            value: "false"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
