@@ -1,4 +1,4 @@
-module example.com/subscriber
+module example.com/bindings
 
 go 1.16
 

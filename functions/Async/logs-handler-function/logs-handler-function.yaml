@@ -31,7 +31,7 @@ spec:
       - type: kafka
         metadata:
           topic: logs
-          bootstrapServers: kafka-logs-receiver-kafka-brokers.default.svc.cluster.local:9092
+          bootstrapServers: kafka-server-kafka-brokers.default.svc.cluster.local:9092
           consumerGroup: logs-handler
           lagThreshold: "20"
     template:
@@ -51,7 +51,7 @@ spec:
         version: v1
         metadata:
           - name: brokers
-            value: "kafka-logs-receiver-kafka-brokers:9092"
+            value: "kafka-server-kafka-brokers:9092"
           - name: authRequired
             value: "false"
           - name: publishTopic
