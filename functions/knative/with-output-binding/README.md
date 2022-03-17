@@ -18,7 +18,7 @@ Follow [this guide](../../../Prerequisites.md#registry-credential) to create a r
 
 ### kafka-input
 
-[kafka-input](../../Async/bindings/kafka-input/kafka-input.yaml) defines an input source (`serving.inputs`). This input source points to a dapr component of the Kafka server. This means that the `kafka-input` will be driven by events in the "sample-topic" topic of the Kafka server.
+[kafka-input](../../async/bindings/kafka-input/kafka-input.yaml) defines an input source (`serving.inputs`). This input source points to a dapr component of the Kafka server. This means that the `kafka-input` will be driven by events in the "sample-topic" topic of the Kafka server.
 
 ```yaml
 serving:
@@ -51,7 +51,7 @@ serving:
 Use the following command to create the function:
 
 ```shell
-kubectl apply -f ../../Async/bindings/kafka-input/kafka-input.yaml
+kubectl apply -f ../../async/bindings/kafka-input/kafka-input.yaml
 ```
 
 ### function-front
