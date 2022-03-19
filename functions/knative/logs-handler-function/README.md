@@ -1,5 +1,9 @@
 # Function Logs Handler
 
+In this example, we'll use an async function to analyze the log stream in Kafka to find out the error logs. The async function will then send alerts to Slack. The entire workflow is like this:
+
+![elastic-log-processing.drawio.svg](./images/elastic-log-processing.drawio.svg)
+
 For a detailed description of this function example, you can refer to the following blogs: 
 
 [OpenFunction 应用系列之一: 以 Serverless 的方式实现 Kubernetes 日志告警](https://kubesphere.io/zh/blogs/serverless-way-for-kubernetes-log-alert/)
