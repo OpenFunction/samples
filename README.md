@@ -22,6 +22,10 @@ We currently support two kinds of runtime, knative and async.
 - Async pubsub sample in [go](functions/async/pubsub)
 - Logs handler function [go](functions/async/logs-handler-function)
 
+### Other samples
+
+- [Tracing sample](functions/tracing/README.md)
+
 ## Application samples
 
 - [Java App](apps/sample-apps-java-maven.yaml)
