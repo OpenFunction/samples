@@ -1,0 +1,26 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: gitlab-webhook
+spec:
+  version: "v2.0.0"
+  image: "your-docker-registry/image:tag"
+  imageCredentials:
+    name: your-push-secret
+  port: 8080 # default to 8080
+  build:
+    builder: openfunction/builder-go:latest
+    env:
+      FUNC_NAME: "ServeWebhook"
+      FUNC_CLEAR_SOURCE: "true"
+      FUNC_GOPROXY: "https://proxy.golang.com.cn,direct"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/knative/gitlab-webhook"
+      revision: "main"
+  serving:
+    runtime: "knative"
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
