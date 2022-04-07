@@ -26,7 +26,18 @@ spec:
           pollingInterval: 15
           minReplicaCount: 0
           maxReplicaCount: 10
-          cooldownPeriod: 45
+          cooldownPeriod: 60
+          advanced:
+            horizontalPodAutoscalerConfig:
+              behavior:
+                scaleDown:
+                  stabilizationWindowSeconds: 60
+                  policies:
+                  - type: Percent
+                    value: 50
+                    periodSeconds: 15
+                scaleUp:
+                  stabilizationWindowSeconds: 0
     triggers:
       - type: kafka
         metadata:
