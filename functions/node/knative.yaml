@@ -1,0 +1,33 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: sample-node-knative
+spec:
+  version: v2.0.0
+  image: your-docker-registry/image:tag
+  # imageCredentials:
+  #   name: your-docker-registry-secret
+  # build:
+  #   builder: openfunction/builder-node:v2-16.13
+  #   env:
+  #     FUNC_NAME: tryKnative
+  #   srcRepo:
+  #     url: https://github.com/OpenFunction/samples.git
+  #     sourceSubPath: functions/node/src
+  #     revision: main
+  # app port default to "8080"
+  # port: 8080
+  serving:
+    runtime: knative
+    scaleOptions:
+      minReplicas: 0
+      maxReplicas: 2
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+    params:
+      # default to "production"
+      NODE_ENV: dev
+      # Node.js debug wildcards
+      DEBUG: common:*,ofn:*
