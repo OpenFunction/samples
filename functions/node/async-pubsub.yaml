@@ -1,0 +1,58 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: sample-node-async-pubsub
+spec:
+  version: v2.0.0
+  image: your-docker-registry/image:tag
+  # imageCredentials:
+  #   name: your-docker-registry-secret
+  # build:
+  #   builder: openfunction/builder-node:v2-16.13
+  #   env:
+  #     FUNC_NAME: tryKnative
+  #   srcRepo:
+  #     url: https://github.com/OpenFunction/samples.git
+  #     sourceSubPath: functions/node/src
+  #     revision: main
+  # app port default to "8080"
+  # port: 8080
+  serving:
+    # default to knative
+    runtime: async
+    annotations:
+      # Dapr annotations: https://docs.dapr.io/reference/arguments-annotations-overview/
+      # default to "grpc"
+      dapr.io/app-protocol: http
+      # default to "info"
+      dapr.io/log-level: debug
+      # default to "true"
+      dapr.io/log-as-json: 'false'
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+    params:
+      # default to FUNC_NAME value
+      FUNCTION_TARGET: tryAsync
+      DEBUG: common:*,ofn:*
+    inputs:
+      - name: mqtt-sub
+        component: mqtt-pubsub
+        topic: sub
+    outputs:
+      - name: mqtt-pub
+        component: mqtt-pubsub
+        topic: pub
+    pubsub:
+      # Dapr MQTT PubSub: https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-mqtt/
+      mqtt-pubsub:
+        type: pubsub.mqtt
+        version: v1
+        metadata:
+          - name: consumerID
+            value: '{uuid}'
+          - name: url
+            value: tcp://admin:public@emqx:1883
+          - name: qos
+            value: 1
