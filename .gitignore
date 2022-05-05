@@ -21,4 +21,7 @@
 
 # node dependencies
 node_modules/
+
+# vscode stuff
+functions/knative/hello-world-dotnet/obj/
 package-lock.json
