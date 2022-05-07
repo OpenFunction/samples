@@ -1,7 +1,7 @@
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: sample-node-async-bindings
+  name: sample-node-async-pubsub
 spec:
   version: v2.0.0
   image: your-docker-registry/image:tag
@@ -13,7 +13,7 @@ spec:
   #     FUNC_NAME: tryKnative
   #   srcRepo:
   #     url: https://github.com/OpenFunction/samples.git
-  #     sourceSubPath: functions/node/src
+  #     sourceSubPath: functions/async/mqtt-io-node
   #     revision: main
   # app port default to "8080"
   # port: 8080
@@ -37,31 +37,22 @@ spec:
       FUNCTION_TARGET: tryAsync
       DEBUG: common:*,ofn:*
     inputs:
-      - name: mqtt-input
-        component: mqtt-in
+      - name: mqtt-sub
+        component: mqtt-pubsub
+        topic: sub
     outputs:
-      - name: mqtt-output
-        component: mqtt-out
-        operation: create
-    bindings:
-      # Dapr MQTT Binding: https://docs.dapr.io/reference/components-reference/supported-bindings/mqtt/
-      mqtt-in:
-        type: bindings.mqtt
+      - name: mqtt-pub
+        component: mqtt-pubsub
+        topic: pub
+    pubsub:
+      # Dapr MQTT PubSub: https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-mqtt/
+      mqtt-pubsub:
+        type: pubsub.mqtt
         version: v1
         metadata:
           - name: consumerID
             value: '{uuid}'
           - name: url
             value: tcp://admin:public@emqx:1883
-          - name: topic
-            value: in
-      mqtt-out:
-        type: bindings.mqtt
-        version: v1
-        metadata:
-          - name: consumerID
-            value: '{uuid}'
-          - name: url
-            value: tcp://admin:public@emqx:1883
-          - name: topic
-            value: out
+          - name: qos
+            value: 1

@@ -13,7 +13,7 @@ spec:
   #     FUNC_NAME: tryKnative
   #   srcRepo:
   #     url: https://github.com/OpenFunction/samples.git
-  #     sourceSubPath: functions/node/src
+  #     sourceSubPath: functions/async/mqtt-io-node
   #     revision: main
   # app port default to "8080"
   # port: 8080
