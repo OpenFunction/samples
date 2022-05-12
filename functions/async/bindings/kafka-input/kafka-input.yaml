@@ -14,7 +14,7 @@ spec:
       FUNC_CLEAR_SOURCE: "true"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Async/bindings/kafka-input"
+      sourceSubPath: "functions/async/bindings/kafka-input"
       revision: "release-0.6"
   serving:
     runtime: async
