@@ -26,7 +26,7 @@ spec:
       GOOGLE_FUNCTION_SOURCE: "main.py"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Knative/hello-world-python"
+      sourceSubPath: "functions/knative/hello-world-python"
       revision: "release-0.6"
   serving:
     runtime: knative # default to knative

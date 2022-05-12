@@ -25,7 +25,7 @@ spec:
       GOOGLE_FUNCTION_SIGNATURE_TYPE: "http"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/Knative/hello-world-java"
+      sourceSubPath: "functions/knative/hello-world-java"
       revision: "release-0.6"
   serving:
     runtime: knative # default to knative
