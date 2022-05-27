@@ -11,7 +11,7 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
 Build the function locally
 
 ```sh
-pack build multiple-functions-go --builder openfunction/builder-go:v2.3.0 --env FUNC_NAME="MultipleFunctions"  --env FUNC_CLEAR_SOURCE=true
+pack build multiple-functions-go --builder openfunction/builder-go:v2.3.0-1.16 --env FUNC_NAME="MultipleFunctions"  --env FUNC_CLEAR_SOURCE=true
 ```
 
 Run the function
