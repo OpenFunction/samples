@@ -11,7 +11,7 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
 Build the function locally
 
 ```sh
-pack build func-helloworld-go --builder openfunction/builder-go:v3 --env FUNC_NAME="HelloWorld"  --env FUNC_CLEAR_SOURCE=true
+pack build func-helloworld-go --builder openfunction/builder-go:v2.3.0 --env FUNC_NAME="HelloWorld"  --env FUNC_CLEAR_SOURCE=true
 ```
 
 Run the function
