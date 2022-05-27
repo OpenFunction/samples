@@ -1,0 +1,57 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: sample-node-http-trigger
+spec:
+  version: v2.0.0
+  image: your-docker-registry/image:tag
+  # imageCredentials:
+  #   name: your-docker-registry-secret
+  # build:
+  #   builder: openfunction/builder-node:v2-16.13
+  #   env:
+  #     FUNC_NAME: tryKnative
+  #   srcRepo:
+  #     url: https://github.com/OpenFunction/samples.git
+  #     sourceSubPath: functions/async/mqtt-io-node
+  #     revision: main
+  # app port default to "8080"
+  # port: 8080
+  serving:
+    # default to knative
+    runtime: knative
+    scaleOptions:
+      minReplicas: 0
+      maxReplicas: 2
+    annotations:
+      # Dapr annotations: https://docs.dapr.io/reference/arguments-annotations-overview/
+      # default to "info"
+      dapr.io/log-level: debug
+      # default to "true"
+      dapr.io/log-as-json: 'false'
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+    params:
+      # default to FUNC_NAME value
+      FUNCTION_TARGET: tryKnativeAsync
+      # default to http
+      FUNCTION_SIGNATURE_TYPE: openfunction
+      DEBUG: common:*,ofn:*
+    outputs:
+      - name: mqtt-output
+        component: mqtt-out
+        operation: create
+    bindings:
+      # Dapr MQTT Binding: https://docs.dapr.io/reference/components-reference/supported-bindings/mqtt/
+      mqtt-out:
+        type: bindings.mqtt
+        version: v1
+        metadata:
+          - name: consumerID
+            value: '{uuid}'
+          - name: url
+            value: tcp://admin:public@emqx:1883
+          - name: topic
+            value: out
