@@ -11,21 +11,25 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
 Build the function locally
 
 ```sh
-pack build func-helloworld-go --builder openfunction/builder-go:v3 --env FUNC_NAME="HelloWorld"  --env FUNC_CLEAR_SOURCE=true
+pack build multiple-functions-go --builder openfunction/builder-go:v3 --env FUNC_NAME="MultipleFunctions"  --env FUNC_CLEAR_SOURCE=true
 ```
 
 Run the function
 
 ```sh
-docker run --rm --env="FUNC_CONTEXT={\"name\":\"HelloWorld\",\"version\":\"v1.0.0\",\"port\":\"8080\",\"runtime\":\"Knative\"}" --env="CONTEXT_MODE=self-host" --name func-helloworld-go -p 8080:8080 func-helloworld-go
+docker run --rm --env="FUNC_CONTEXT={\"name\":\"MultipleFunctions\",\"version\":\"v1.0.0\",\"port\":\"8080\",\"runtime\":\"Knative\"}" --env="CONTEXT_MODE=self-host" --name multiple-functions-go -p 8080:8080 multiple-functions-go
 ```
 
 Send a request
 
 ```sh
-curl http://localhost:8080/OpenFunction
-# Hello, OpenFunction!
+curl http://localhost:8080/bar
+# hello, bar!
+
+curl http://localhost:8080/foo
+# {"hello":"foo!"}%  
 ```
+
 
 ## Deployment
 
@@ -52,7 +56,7 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
     metadata:
       name: function-sample
     spec:
-      image: "<your registry name>/sample-go-func:latest"
+      image: "<your registry name>/sample-go-multi-func:latest"
     ```
 
    Use the following command to create this Function:
@@ -83,11 +87,11 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
    Access the function via `URL`:
    
    ```shell
-   [ root@curl:/ ]$ curl http://openfunction.io.svc.cluster.local/default/function-sample/World
-   Hello, World!
+   [ root@curl:/ ]$ curl http://openfunction.io.svc.cluster.local/default/function-sample/foo
+   {"hello":"foo!"}%
    
-   [ root@curl:/ ]$ curl http://openfunction.io.svc.cluster.local/default/function-sample/OpenFunction
-   Hello, OpenFunction!
+   [ root@curl:/ ]$ curl http://openfunction.io.svc.cluster.local/default/function-sample/bar
+   hello, bar!
    ```
    
    There is also an alternative way to trigger the function via the access address provided by the Knative Services:
@@ -122,11 +126,11 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
    Access the above service address via commands such as ``curl``:
    
     ```shell
-    curl http://serving-q6wdp-ksvc-wk6mv.default.<external-ip>.sslip.io/World
+    curl http://serving-q6wdp-ksvc-wk6mv.default.<external-ip>.sslip.io/foo
      
-    Hello, World!
+    {"hello":"foo!"}%
     
-    curl http://serving-q6wdp-ksvc-wk6mv.default.<external-ip>.sslip.io/OpenFunction
+    curl http://serving-q6wdp-ksvc-wk6mv.default.<external-ip>.sslip.io/bar
      
-    Hello, OpenFunction!
+    hello, bar!
     ```

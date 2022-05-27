@@ -1,0 +1,25 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: function-sample
+spec:
+  version: "v2.0.0"
+  image: "openfunctiondev/sample-go-multi-func:latest"
+  imageCredentials:
+    name: push-secret
+  port: 8080 # default to 8080
+  build:
+    builder: openfunction/builder-go:latest
+    env:
+      FUNC_NAME: "MultipleFunctions"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/knative/multiple-functions-go"
+      revision: "main"
+  serving:
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+    runtime: "knative"
