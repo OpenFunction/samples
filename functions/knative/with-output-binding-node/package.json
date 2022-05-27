@@ -1,0 +1,9 @@
+{
+  "main": "index.mjs",
+  "scripts": {
+    "start": "functions-framework --target=tryKnative"
+  },
+  "dependencies": {
+    "@openfunction/functions-framework": "^0.5.0"
+  }
+}
