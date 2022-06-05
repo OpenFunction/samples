@@ -5,7 +5,28 @@
 1. [Install OpenFunction](https://github.com/OpenFunction/OpenFunction#install-openfunction)
 2. [Refer to the go function sample](../hello-world-go/README.md)
 
-Definition of a ```Function``` for ```python``` is shown below:
+## Run it locally
+
+Build the function locally
+
+```sh
+pack build python-sample --builder openfunction/gcp-builder:v1 --env GOOGLE_FUNCTION_TARGET=hello_world
+```
+
+Run the function
+
+```sh
+docker run --rm --env="FUNC_CONTEXT={\"name\":\"python-sample\",\"version\":\"v1.0.0\",\"port\":\"8080\",\"runtime\":\"Knative\"}" --env="CONTEXT_MODE=self-host" --name python-sample -p 8080:8080 python-sample
+```
+
+Send a request
+
+```sh
+curl http://localhost:8080
+# hello, world
+```
+
+Definition of a `Function` for `python` is shown below:
 
 ```yaml
 apiVersion: core.openfunction.io/v1beta1
@@ -35,4 +56,3 @@ spec:
         - name: function
           imagePullPolicy: Always
 ```
-
