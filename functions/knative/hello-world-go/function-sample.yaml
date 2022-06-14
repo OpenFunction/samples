@@ -4,7 +4,7 @@ metadata:
   name: function-sample
 spec:
   version: "v2.0.0"
-  image: "openfunctiondev/sample-go-func:latest"
+  image: "openfunctiondev/sample-go-func:v1"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
@@ -20,6 +20,6 @@ spec:
   serving:
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 
     runtime: "knative"

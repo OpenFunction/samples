@@ -52,7 +52,7 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
     metadata:
       name: function-sample
     spec:
-      image: "<your registry name>/sample-go-func:latest"
+      image: "<your registry name>/sample-go-func:v1"
     ```
 
    Use the following command to create this Function:

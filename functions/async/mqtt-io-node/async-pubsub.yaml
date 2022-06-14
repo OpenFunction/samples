@@ -4,7 +4,7 @@ metadata:
   name: sample-node-async-pubsub
 spec:
   version: v2.0.0
-  image: your-docker-registry/image:tag
+  image: your-docker-registry/image:v1
   # imageCredentials:
   #   name: your-docker-registry-secret
   # build:
@@ -30,8 +30,8 @@ spec:
       dapr.io/log-as-json: 'false'
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent
     params:
       # default to FUNC_NAME value
       FUNCTION_TARGET: tryAsync

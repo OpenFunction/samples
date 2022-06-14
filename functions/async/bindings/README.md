@@ -22,7 +22,7 @@ kind: Function
 metadata:
   name: cron-input
 spec:
-  image: "<your registry name>/cron-input:latest"
+  image: "<your registry name>/cron-input:v1"
 ```
 
 Use the following commands to create this Function:
@@ -64,7 +64,7 @@ kind: Function
 metadata:
   name: cron-input-kafka-output
 spec:
-  image: "<your registry name>/cron-input-kafka-output:latest"
+  image: "<your registry name>/cron-input-kafka-output:v1"
 ```
 
 Use the following commands to create this Function:

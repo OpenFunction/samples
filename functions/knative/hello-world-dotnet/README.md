@@ -31,6 +31,6 @@ spec:
     runtime: "knative" # default to knative
     template:
       containers:
-        - name: function
-          imagePullPolicy: IfNotPresent
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 
 ```

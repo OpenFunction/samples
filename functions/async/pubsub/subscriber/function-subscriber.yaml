@@ -4,7 +4,7 @@ metadata:
   name: autoscaling-subscriber
 spec:
   version: "v2.0.0"
-  image: openfunctiondev/autoscaling-subscriber:latest
+  image: openfunctiondev/autoscaling-subscriber:v1
   imageCredentials:
     name: push-secret
   build:
@@ -47,8 +47,8 @@ spec:
           lagThreshold: "20"
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent
     inputs:
       - name: producer
         component: kafka-server

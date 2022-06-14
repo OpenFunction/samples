@@ -4,7 +4,7 @@ metadata:
   name: logs-sync-handler
 spec:
   version: "v2.0.0"
-  image: openfunctiondev/logs-sync-handler:latest
+  image: openfunctiondev/logs-sync-handler:v2
   imageCredentials:
     name: push-secret
   build:
@@ -20,5 +20,5 @@ spec:
     runtime: "knative"
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 
