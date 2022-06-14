@@ -12,7 +12,7 @@ metadata:
       - plugin-example
 spec:
   version: "v2.0.0"
-  image: openfunctiondev/cron-input-kafka-output:latest
+  image: openfunctiondev/cron-input-kafka-output:v1
   imageCredentials:
     name: push-secret
   build:
@@ -27,8 +27,8 @@ spec:
   serving:
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 
     runtime: "async"
     inputs:
       - name: cron

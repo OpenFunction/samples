@@ -4,7 +4,7 @@ metadata:
   name: logs-async-handler
 spec:
   version: "v2.0.0"
-  image: openfunctiondev/logs-async-handler:latest
+  image: openfunctiondev/logs-async-handler:v1
   imageCredentials:
     name: push-secret
   build:
@@ -47,8 +47,8 @@ spec:
           lagThreshold: "20"
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent
     inputs:
       - name: kafka
         component: kafka-receiver

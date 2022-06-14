@@ -4,7 +4,7 @@ metadata:
   name: sample-node-knative
 spec:
   version: v2.0.0
-  image: your-docker-registry/image:tag
+  image: your-docker-registry/image:v1
   # imageCredentials:
   #   name: your-docker-registry-secret
   # build:
@@ -24,8 +24,8 @@ spec:
       maxReplicas: 2
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 
     params:
       # default to "production"
       NODE_ENV: dev

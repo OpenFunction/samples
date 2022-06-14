@@ -44,8 +44,8 @@ serving:
           value: "false"
   template:
     containers:
-      - name: function
-        imagePullPolicy: Always
+      - name: function # DO NOT change this
+        imagePullPolicy: IfNotPresent 
 ```
 
 Use the following command to create the function:

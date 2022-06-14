@@ -4,7 +4,7 @@ metadata:
   name: kafka-input
 spec:
   version: "v1.0.0"
-  image: openfunctiondev/kafka-input:latest
+  image: openfunctiondev/kafka-input:v1
   imageCredentials:
     name: push-secret
   build:
@@ -65,5 +65,5 @@ spec:
             value: "false"
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 

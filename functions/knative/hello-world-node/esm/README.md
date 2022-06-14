@@ -18,7 +18,7 @@ metadata:
   name: node-sample
 spec:
   version: "v1.0.0"
-  image: "<your registry name>/sample-node-esm-func:latest"
+  image: "<your registry name>/sample-node-esm-func:v1"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
@@ -35,6 +35,6 @@ spec:
     runtime: "knative" # default to knative
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 
 ```

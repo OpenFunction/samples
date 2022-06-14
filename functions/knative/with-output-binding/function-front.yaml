@@ -12,7 +12,7 @@ metadata:
       - plugin-example
 spec:
   version: "v1.0.0"
-  image: "openfunctiondev/sample-knative-dapr:latest"
+  image: "openfunctiondev/sample-knative-dapr:v1"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
@@ -51,5 +51,5 @@ spec:
             value: "function-front"
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 

@@ -59,7 +59,7 @@ kind: Function
 metadata:
   name: autoscaling-subscriber
 spec:
-  image: "<your registry name>/autoscaling-subscriber:latest"
+  image: "<your registry name>/autoscaling-subscriber:v1"
 ```
 
 Use the following commands to create these Functions:
