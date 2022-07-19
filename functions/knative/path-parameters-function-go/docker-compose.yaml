@@ -1,0 +1,43 @@
+# https://github.com/dapr/samples/tree/master/hello-docker-compose
+version: '3'
+services:
+  ############################
+  # myfunction + Dapr sidecar
+  ############################
+  myfunction:
+    image: sample-go-path-params-func
+    ports:
+      - "50001:50001" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+      - "8080:8080"
+    environment:
+      FUNC_CONTEXT: "{\"name\":\"pathParametersFunction\",\"version\":\"v1.0.0\",\"port\":\"8080\",\"runtime\":\"Knative\"}"
+      CONTEXT_MODE: "self-host"
+    depends_on:
+      - placement
+    networks:
+      - hello-dapr
+  myfunction-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+     "-app-id", "pathParametersFunction",
+     "-app-port", "3000",
+     "-dapr-grpc-port", "50001",
+     "-placement-host-address", "placement:50006" # Dapr's placement service can be reach via the docker DNS entry
+     ]
+    depends_on:
+      - myfunction
+    network_mode: "service:myfunction" # Attach the myfunction-dapr service to the myfunction network namespace
+  ############################
+  # Dapr placement service
+  ############################
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - hello-dapr
+
+networks:
+    hello-dapr:
