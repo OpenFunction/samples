@@ -68,26 +68,39 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
     ```shell
    kubectl get functions.core.openfunction.io
    
-   NAME              BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         URL                                              AGE
-   function-sample   Succeeded    Running        builder-jgnzp   serving-q6wdp   http://openfunction.io/default/function-sample   22m
+   NAME              BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         ADDRESS                                              AGE
+   function-sample   Succeeded    Running        builder-jgnzp   serving-q6wdp   http://function-sample.default.ofn.io/               22m
     ```
 
-   The `URL` is the address provided by the OpenFunction Domain that can be accessed. To access the function via this URL address, you need to make sure that DNS can resolve this address.
+   The `Function.status.addresses` field provides various methods for accessing functions.
+   Get `Function` addresses by running following command:
+   ```shell
+   kubectl get function function-sample -o=jsonpath='{.status.addresses}'
+   ```
+   You will get the following address:
+   ```json
+   [{"type":"External","value":"http://function-sample.default.ofn.io/"},
+   {"type":"Internal","value":"http://function-sample.default.svc.cluster.local/"}]
+   ```
 
    > You can use the following command to create a pod in the cluster and access the function from the pod:
    >
    > ```shell
    > kubectl run curl --image=radial/busyboxplus:curl -i --tty
    > ```
-   
-   Access the function via `URL`:
-   
+
+   Access functions by the internal address:
    ```shell
-   [ root@curl:/ ]$ curl http://openfunction.io.svc.cluster.local/default/function-sample/World
-   Hello, World!
-   
-   [ root@curl:/ ]$ curl http://openfunction.io.svc.cluster.local/default/function-sample/OpenFunction
+   [ root@curl:/ ]$ curl http://function-sample.default.svc.cluster.local/OpenFunction
    Hello, OpenFunction!
+   ```
+
+   Access functions by the external address:
+   > To access the function via the Address of type `External` in `Funtion.status`, you should configure local domain first, see [Configure Local Domain](https://openfunction.dev/docs/concepts/networking/local-domain).
+
+   ```shell
+   [ root@curl:/ ]$ curl http://function-sample.default.ofn.io/World
+   Hello, World!
    ```
    
    There is also an alternative way to trigger the function via the access address provided by the Knative Services:
