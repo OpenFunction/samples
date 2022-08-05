@@ -130,26 +130,41 @@ kubectl apply -f function-front.yaml
 Check the current function status:
 
 ```shell
-~# kubectl get functions.core.openfunction.io
+kubectl get functions.core.openfunction.io
 
 NAME             BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         URL                                             AGE
-function-front   Succeeded    Running        builder-bhbtk   serving-vc6jw   http://openfunction.io/default/function-front   2m41s
-kafka-input    Succeeded    Running        builder-dprfd   serving-75vrt                                                   2m21s
+function-front   Succeeded    Running        builder-bhbtk   serving-vc6jw   http://function-front.default.ofn.io/           2m41s
+kafka-input      Succeeded    Running        builder-dprfd   serving-75vrt                                                   2m21s
 ```
 
-The `URL` is the address provided by the OpenFunction Domain that can be accessed. To access the function via this URL address, you need to make sure that DNS can resolve this address.
+The `Function.status.addresses` field provides various methods for accessing functions.
+Get `Function` addresses by running following command:
+   ```shell
+   kubectl get function function-front -o=jsonpath='{.status.addresses}'
+   ```
+You will get the following address:
+   ```json
+   [{"type":"External","value":"http://function-front.default.ofn.io/"},
+   {"type":"Internal","value":"http://function-front.default.svc.cluster.local/"}]
+   ```
 
 > You can use the following command to create a pod in the cluster and access the function from the pod:
 >
 > ```shell
-> kubectl run curl --image=radial/busyboxplus:curl -i --tty --rm
-> ```
+   > kubectl run curl --image=radial/busyboxplus:curl -i --tty
+   > ```
 
-Access the function via `URL`:
+Access functions by the internal address:
+   ```shell
+   [ root@curl:/ ]$ curl -d '{"message":"Awesome OpenFunction!"}' -H "Content-Type: application/json" -X POST http://function-front.default.svc.cluster.local/
+   ```
 
-```shell
-[ root@curl:/ ]$ curl -d '{"message":"Awesome OpenFunction!"}' -H "Content-Type: application/json" -X POST http://openfunction.io.svc.cluster.local/default/function-front
-```
+Access functions by the external address:
+> To access the function via the Address of type `External` in `Funtion.status`, you should configure local domain first, see [Configure Local Domain](https://openfunction.dev/docs/concepts/networking/local-domain).
+
+   ```shell
+   [ root@curl:/ ]$ curl -d '{"message":"Awesome OpenFunction!"}' -H "Content-Type: application/json" -X POST http://function-front.default.ofn.io/
+   ```
 
 Query `function-front`'s log:
 
