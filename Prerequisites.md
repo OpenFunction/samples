@@ -81,8 +81,13 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
    strimzi-cluster-operator-687fdd6f77-cwmgm         1/1     Running       0          11m
    ```
 
-   Run the following command to view the metadata for the Kafka cluster.
-
+    Run the following command to create a utils pod and use it to access services inside the cluster.
+      ```shell
+      $ kubectl run --rm utils -it --image arunvelsriram/utils bash
+      ```
+   
+   Run the following command in the utils pod to view the metadata for the Kafka cluster.
+   
    ```shell
    $ kafkacat -L -b <kafka-server>-kafka-brokers:9092
    ```
