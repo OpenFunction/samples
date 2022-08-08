@@ -132,9 +132,9 @@ Check the current function status:
 ```shell
 kubectl get functions.core.openfunction.io
 
-NAME             BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         URL                                             AGE
-function-front   Succeeded    Running        builder-bhbtk   serving-vc6jw   http://function-front.default.ofn.io/           2m41s
-kafka-input      Succeeded    Running        builder-dprfd   serving-75vrt                                                   2m21s
+NAME             BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         ADDRESS                                                   AGE
+function-front   Succeeded    Running        builder-bhbtk   serving-vc6jw   http://function-front.default.svc.cluster.local           2m41s
+kafka-input      Succeeded    Running        builder-dprfd   serving-75vrt                                                             2m21s
 ```
 
 The `Function.status.addresses` field provides various methods for accessing functions.

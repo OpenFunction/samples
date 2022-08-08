@@ -11,7 +11,7 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
 Build the function locally
 
 ```sh
-pack build func-helloworld-go --builder openfunction/builder-go:v2.3.0-1.16 --env FUNC_NAME="HelloWorld"  --env FUNC_CLEAR_SOURCE=true
+pack build func-helloworld-go --builder openfunction/builder-go:v2.4.0-1.17 --env FUNC_NAME="HelloWorld"  --env FUNC_CLEAR_SOURCE=true
 ```
 
 Run the function
@@ -68,8 +68,8 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
     ```shell
    kubectl get functions.core.openfunction.io
    
-   NAME              BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         ADDRESS                                              AGE
-   function-sample   Succeeded    Running        builder-jgnzp   serving-q6wdp   http://function-sample.default.ofn.io/               22m
+   NAME              BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         ADDRESS                                                         AGE
+   function-sample   Succeeded    Running        builder-jgnzp   serving-q6wdp   http://function-sample.default.svc.cluster.local/               22m
     ```
 
    The `Function.status.addresses` field provides various methods for accessing functions.
