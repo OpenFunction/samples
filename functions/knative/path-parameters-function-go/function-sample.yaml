@@ -9,7 +9,7 @@ spec:
     name: push-secret
   port: 8080 # default to 8080
   build:
-    builder: openfunction/builder-go:latest
+    builder: openfunction/builder-go:v2.4.0-1.17
     env:
       FUNC_NAME: "pathParametersFunction"
       FUNC_CLEAR_SOURCE: "true"

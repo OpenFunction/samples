@@ -11,7 +11,7 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
 Build the function locally
 
 ```sh
-pack build sample-go-path-params-func --builder openfunction/builder-go:v2.3.0-1.16 --env FUNC_NAME="pathParametersFunction"  --env FUNC_CLEAR_SOURCE=true
+pack build sample-go-path-params-func --builder openfunction/builder-go:v2.4.0-1.17 --env FUNC_NAME="pathParametersFunction"  --env FUNC_CLEAR_SOURCE=true
 ```
 
 Run the function
@@ -26,7 +26,7 @@ Send a request
 
 # http
 curl -X POST "http://localhost:8080/hello/openfunction"
-# {"hello":"openfunction"}% 
+# {"hello":"openfunction"}%
 
 # cloudevent
 curl -X POST "http://localhost:8080/foo/openfunction" \
@@ -39,7 +39,7 @@ curl -X POST "http://localhost:8080/foo/openfunction" \
 # http
 curl -X POST "http://localhost:8080/bar/openfunction" \
   -d 'hello'
-# {"hello":"openfunction"}%  
+# {"hello":"openfunction"}%
 
 # Structured CloudEvent
 curl -X POST "http://localhost:8080/bar/openfunction" \
@@ -103,10 +103,39 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
    kubectl get functions.core.openfunction.io
    
    NAME              BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         URL                                                        AGE
-   function-sample   Succeeded    Running        builder-jgnzp   serving-gsx8g   http://openfunction.io/modelmesh-serving/function-sample   56s
+   function-sample   Succeeded    Running        builder-jgnzp   serving-gsx8g   http://function-sample.default.svc.cluster.local/          56s
     ```
-   
-   Trigger the function via the access address provided by the Knative Services:
+
+   The `Function.status.addresses` field provides various methods for accessing functions.
+   Get `Function` addresses by running following command:
+   ```shell
+   kubectl get function function-sample -o=jsonpath='{.status.addresses}'
+   ```
+   You will get the following address:
+   ```json
+   [{"type":"External","value":"http://function-sample.default.ofn.io/"},
+   {"type":"Internal","value":"http://function-sample.default.svc.cluster.local/"}]
+   ```
+
+   > You can use the following command to create a pod in the cluster and access the function from the pod:
+   >
+   > ```shell
+   > kubectl run curl --image=radial/busyboxplus:curl -i --tty
+   > ```
+   Access functions by the internal address:
+   ```shell
+   [ root@curl:/ ]$ curl http://function-sample.default.svc.cluster.local/hello/openfunction
+   {"hello":"openfunction"}%
+   ```
+
+   Access functions by the external address:
+   > To access the function via the Address of type `External` in `Funtion.status`, you should configure local domain first, see [Configure Local Domain](https://openfunction.dev/docs/concepts/networking/local-domain).
+   ```shell
+   [ root@curl:/ ]$ curl http://function-sample.default.ofn.io/hello/openfunction
+   {"hello":"openfunction"}%
+   ```
+
+   There is also an alternative way to trigger the function via the access address provided by the Knative Services:
 
     ```shell
     kubectl get ksvc
