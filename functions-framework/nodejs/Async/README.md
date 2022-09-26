@@ -1,7 +1,7 @@
 
 # Async Runtime use plugin example
 
-When you write a  plugin (like this )[](plugins) , you can use it this way
+When you write a  plugin (like this )[plugins](plugins) , you can use it this way
 ```
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
