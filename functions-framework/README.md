@@ -5,12 +5,15 @@ This directory holds the validation demos for the [functions-framework](https://
 Current supported list:
 
 - [functions-framework-go](https://github.com/OpenFunction/functions-framework-go)
+- [functions-framework-nodejs](https://github.com/OpenFunction/functions-framework-nodejs)
 
 Depending on the type of runtime, the demos are divided into `Knative` and `Async`, please check them separately:
 
 * Golang
   * [Knative runtime demos](golang/Knative)
   * [Async runtime demos](golang/Async)
+* Node.js  
+	* [Async runtime demos](nodejs/Async)
 
 ## Plugin mechanism
 
