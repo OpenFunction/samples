@@ -1,0 +1,58 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: cron-input-kafka-output-java
+  annotations:
+    plugins: |
+      pre:
+      - dev.openfunction.samples.plugins.ExamplePlugin
+      post:
+      - dev.openfunction.samples.plugins.ExamplePlugin
+spec:
+  version: "v2.0.0"
+  image: openfunctiondev/cron-input-kafka-output-java:v1
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: openfunction/builder-java:v2-18
+    env:
+      FUNC_NAME: "dev.openfunction.samples.OpenFunctionImpl"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/knative/java"
+      revision: "main"
+  serving:
+    template:
+      containers:
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 
+    runtime: "async"
+    inputs:
+      - name: cron
+        component: cron
+    outputs:
+      - name: sample
+        component: kafka-server
+        operation: "create"
+    bindings:
+      cron:
+        type: bindings.cron
+        version: v1
+        metadata:
+        - name: schedule
+          value: "@every 2s"
+      kafka-server:
+        type: bindings.kafka
+        version: v1
+        metadata:
+        - name: brokers
+          value: "kafka-server-kafka-brokers:9092"
+        - name: topics
+          value: "sample-topic"
+        - name: consumerGroup
+          value: "bindings-with-output"
+        - name: publishTopic
+          value: "sample-topic"
+        - name: authRequired
+          value: "false"

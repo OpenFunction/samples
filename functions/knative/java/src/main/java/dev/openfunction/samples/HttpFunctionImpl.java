@@ -11,20 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.openfunction;
+package dev.openfunction.samples;
 
-import com.google.cloud.functions.HttpFunction;
-import com.google.cloud.functions.HttpRequest;
-import com.google.cloud.functions.HttpResponse;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import dev.openfunction.functions.HttpFunction;
+import dev.openfunction.functions.HttpRequest;
+import dev.openfunction.functions.HttpResponse;
 
-public class HelloWorld implements HttpFunction {
-  // Simple function to return "Hello World"
-  @Override
-  public void service(HttpRequest request, HttpResponse response)
-      throws IOException {
-    BufferedWriter writer = response.getWriter();
-    writer.write("Hello World!");
-  }
+public class HttpFunctionImpl implements HttpFunction {
+    // Simple function to return "Hello World"
+    @Override
+    public void service(HttpRequest request, HttpResponse response) throws Exception {
+
+        response.getWriter().write("Hello World");
+    }
 }
