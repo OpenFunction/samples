@@ -4,9 +4,9 @@
 
 You can refer to the [Installation Guide](https://openfunction.dev/docs/getting-started/installation/) to setup OpenFunction.
 
-Follow [this guide](../../../../Prerequisites.md#kafka) to install a Kafka server named `kafka-server` and a Topic named `sample-topic`.
+Follow [this guide](https://openfunction.dev/docs/getting-started/quickstarts/prerequisites/#kafka) to install a Kafka server named `kafka-server` and a Topic named `sample-topic`.
 
-Follow [this guide](../../../../Prerequisites.md#registry-credential) to create a registry credential.
+Follow [this guide](https://openfunction.dev/docs/getting-started/quickstarts/prerequisites/#registry-credential) to create a registry credential.
 
 ## Deployment
 

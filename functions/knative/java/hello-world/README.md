@@ -31,7 +31,7 @@ Send a request
 
 1. Create secret
 
-Follow [this guide](../../../../Prerequisites.md#registry-credential) to create a registry credential.
+Follow [this guide](https://openfunction.dev/docs/getting-started/quickstarts/prerequisites/#registry-credential) to create a registry credential.
 
 2. Create function
 
