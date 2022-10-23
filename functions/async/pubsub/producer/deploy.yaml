@@ -29,6 +29,10 @@ spec:
               value: "autoscaling-producer"
             - name: TOPIC_NAME
               value: "sample-topic"
+#            - name: NUMBER_OF_PUBLISHERS
+#              value: "10"
+#            - name: PUBLISHERS_DELAY
+#              value: "1s"
           ports:
             - containerPort: 60034
               name: function-port
