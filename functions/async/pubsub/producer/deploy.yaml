@@ -33,6 +33,8 @@ spec:
 #              value: "10"
 #            - name: PUBLISHERS_DELAY
 #              value: "1s"
+#            - name: PUBLISHERS_FREQ
+#              value: "1s"
           ports:
             - containerPort: 60034
               name: function-port
