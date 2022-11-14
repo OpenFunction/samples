@@ -26,7 +26,7 @@ You can refer to the [Installation Guide](https://github.com/OpenFunction/OpenFu
      namespace: default
    spec:
      kafka:
-       version: 3.1.0
+       version: 3.3.1
        replicas: 1
        listeners:
          - name: plain
