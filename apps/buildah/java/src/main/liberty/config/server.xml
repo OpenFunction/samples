@@ -1,0 +1,12 @@
+<server description="Java Open Liberty Server">
+    <featureManager>
+        <feature>jaxrs-2.1</feature>
+    </featureManager>
+
+    <variable name="default.http.port" defaultValue="8080"/>
+    <variable name="default.https.port" defaultValue="9443"/>
+
+    <webApplication location="java-open-liberty.war" contextRoot="/" />
+
+    <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+</server>

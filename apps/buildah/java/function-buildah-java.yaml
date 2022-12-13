@@ -1,0 +1,27 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: function-buildah-java
+spec:
+  version: "v1.0.0"
+  image: "openfunctiondev/sample-buildah-java:latest"
+  imageCredentials:
+    name: push-secret
+  #port: 8080 # default to 8080
+  build:
+    builder: openfunction/buildah:v1.23.1
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "apps/buildah/java"
+      revision: "main"
+    shipwright:
+      strategy:
+        name: buildah
+        kind: ClusterBuildStrategy
+  serving:
+    runtime: knative
+    template:
+      containers:
+        - name: function
+          imagePullPolicy: Always
+
