@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Hello World</title>
+    	<style type="text/css">
+    	
+    		h1, p {
+    			font-family: sans-serif;
+    		}
+    	
+    		.loading {
+    			color: #a8a8a8;
+    			font-style: italic;
+    		}
+    		
+    		.error {
+    			color: #da1e28;
+    			font-weight: bold;
+    		}
+    		
+    		.success {
+    			color: #24a148;
+    			font-weight: bold;
+    		}
+
+    	</style>
+    </head>
+    <body>
+    	<h1>Hello World!</h1>
+    	<p>Healthy: <span id="healthy" class="loading">Loading...</span></p>
+    	
+    	<script type="text/javascript">
+    	
+    		var element = document.getElementById("healthy");
+    		fetch("/api/health")
+    			.then(function(response) {
+    				if (response.ok) {
+        				element.classList = ["success"];
+        				element.innerHTML = "OK";
+    				} else {
+        				element.classList = ["error"];
+        				element.innerHTML = "Error";
+    				}
+    			})
+    			.catch(function() {
+    				element.classList = ["error"];
+    				element.innerHTML = "Error";
+    			});
+    	
+    	</script>
+    </body>
+</html>
