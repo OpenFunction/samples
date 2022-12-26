@@ -1,0 +1,37 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: wasmedge-http-server
+spec:
+  workloadRuntime: wasmedge
+  image: openfunctiondev/wasmedge_http_server:0.1.0
+  imageCredentials:
+    name: push-secret
+  build:
+    dockerfile: Dockerfile
+    srcRepo:
+      revision: main
+      sourceSubPath: functions/knative/wasmedge/http-server
+      url: https://github.com/OpenFunction/samples
+  port: 8080
+  route:
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /echo
+  serving:
+    runtime: knative
+    scaleOptions:
+      minReplicas: 0
+    template:
+      containers:
+        - command:
+            - /wasmedge_hyper_server.wasm
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 30
+            tcpSocket:
+              port: 8080
+          name: function
