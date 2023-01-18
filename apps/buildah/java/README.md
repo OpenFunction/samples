@@ -14,13 +14,13 @@ Follow [this guide](https://openfunction.dev/docs/getting-started/quickstarts/pr
 
 2. Create function
 
-For sample function below, modify the ``spec.image`` field in ``function-buildah-java.yaml`` to your own container registry address:
+For sample function below, modify the ``spec.image`` field in ``sample-java-app.yaml`` to your own container registry address:
 
   ```yaml
   apiVersion: core.openfunction.io/v1beta1
   kind: Function
   metadata:
-    name: function-buildah-java
+    name: sample-java-app
   spec:
     image: "<your registry name>/sample-buildah-java:latest"
   ```
@@ -28,7 +28,7 @@ For sample function below, modify the ``spec.image`` field in ``function-buildah
 Use the following command to create this Function:
 
   ```shell
-  kubectl apply -f function-buildah-java.yaml
+  kubectl apply -f sample-java-app.yaml
   ```
 
 3. Access function
@@ -39,21 +39,21 @@ You can observe the process of a function with the following command:
   kubectl get functions.core.openfunction.io
    
   NAME                    BUILDSTATE   SERVINGSTATE   BUILDER         SERVING         ADDRESS                                                   AGE
-  function-buildah-java   Succeeded    Running        builder-jgnzp   serving-q6wdp   http://function-buildah-java.default.svc.cluster.local/   22m
+  sample-java-app         Succeeded    Running        builder-jgnzp   serving-q6wdp   http://sample-java-app.default.svc.cluster.local/         22m
   ```
 
 The `Function.status.addresses` field provides various methods for accessing functions.
 Get `Function` addresses by running following command:
 
   ```shell
-  kubectl get function function-buildah-java -o=jsonpath='{.status.addresses}'
+  kubectl get function sample-java-app -o=jsonpath='{.status.addresses}'
   ```
 
 You will get the following address:
    
   ```json
-  [{"type":"External","value":"http://function-buildah-java.default.ofn.io/"},
-  {"type":"Internal","value":"http://function-buildah-java.default.svc.cluster.local/"}]
+  [{"type":"External","value":"http://sample-java-app.default.ofn.io/"},
+  {"type":"Internal","value":"http://sample-java-app.default.svc.cluster.local/"}]
   ```
 
   > You can use the following command to create a pod in the cluster and access the function from the pod:
@@ -65,13 +65,13 @@ You will get the following address:
 Access functions by the internal address:
 
   ```shell
-  curl http://function-buildah-java.default.svc.cluster.local
+  curl http://sample-java-app.default.svc.cluster.local
    ```
 
 Access functions by the external address:
   > To access the function via the Address of type `External` in `Funtion.status`, you should configure local domain first, see [Configure Local Domain](https://openfunction.dev/docs/operations/networking/local-domain/).
 
   ```shell
-  curl http://function-buildah-java.default.ofn.io
+  curl http://sample-java-app.default.ofn.io
   ```
    

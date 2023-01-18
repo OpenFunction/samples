@@ -1,10 +1,10 @@
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: sample-app-java-maven
+  name: sample-java-app-buildpacks
 spec:
   version: "v1.0.0"
-  image: "openfunction/buildpacks-sample-apps-java-maven:latest"
+  image: "openfunction/sample-java-app-buildpacks:v1"
   imageCredentials:
     name: push-secret
   port: 8080 # default to 8080
@@ -19,4 +19,4 @@ spec:
     template:
       containers:
         - name: function
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
