@@ -1,10 +1,10 @@
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: function-buildah
+  name: sample-go-app
 spec:
   version: "v1.0.0"
-  image: "openfunctiondev/sample-buildah-go:latest"
+  image: "openfunctiondev/sample-go-app:v1"
   imageCredentials:
     name: push-secret
   #port: 8080 # default to 8080
@@ -12,7 +12,7 @@ spec:
     builder: openfunction/buildah:v1.23.1
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "apps/with-dockerfile"
+      sourceSubPath: "apps/buildah/go"
       revision: "main"
     shipwright:
       strategy:
@@ -23,5 +23,5 @@ spec:
     template:
       containers:
         - name: function
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
 
