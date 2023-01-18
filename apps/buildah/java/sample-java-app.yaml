@@ -1,10 +1,10 @@
 apiVersion: core.openfunction.io/v1beta1
 kind: Function
 metadata:
-  name: function-buildah-java
+  name: sample-java-app
 spec:
   version: "v1.0.0"
-  image: "openfunctiondev/sample-buildah-java:latest"
+  image: "openfunctiondev/sample-java-app:v1"
   imageCredentials:
     name: push-secret
   #port: 8080 # default to 8080
@@ -23,5 +23,5 @@ spec:
     template:
       containers:
         - name: function
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
 
