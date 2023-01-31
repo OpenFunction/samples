@@ -1,26 +1,30 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: function-kaniko
+  namespace: default
 spec:
-  version: "v1.0.0"
-  image: "openfunctiondev/sample-kankio-go:latest"
-  imageCredentials:
-    name: push-secret
-  #port: 8080 # default to 8080
   build:
     builder: openfunction/kaniko-executor:v1.7.0
-    srcRepo:
-      url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "apps/with-dockerfile"
-      revision: "main"
     shipwright:
       strategy:
-        name: kaniko
         kind: ClusterBuildStrategy
+        name: kaniko
+    srcRepo:
+      revision: main
+      sourceSubPath: apps/buildah/go
+      url: https://github.com/OpenFunction/samples.git
+  image: openfunctiondev/sample-kankio-go:latest
+  imageCredentials:
+    name: push-secret
   serving:
-    runtime: knative
     template:
       containers:
-        - name: function
-          imagePullPolicy: Always
+        - imagePullPolicy: Always
+          name: function
+          resources: {}
+    triggers:
+      http:
+        port: 8080
+  version: v1.0.0
+  workloadRuntime: OCIContainer

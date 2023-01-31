@@ -1,4 +1,4 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: function-sample
@@ -7,7 +7,6 @@ spec:
   image: "<image-registry>/sample-go-path-params-func:v1"
   imageCredentials:
     name: push-secret
-  port: 8080 # default to 8080
   build:
     builder: openfunction/builder-go:v2.4.0-1.17
     env:
@@ -24,7 +23,9 @@ spec:
       containers:
         - name: function
           imagePullPolicy: Always
-    runtime: "knative"
+    triggers:
+      http:
+        port: 8080
     annotations:
       # to enable dapr manually
       # Dapr annotations: https://docs.dapr.io/reference/arguments-annotations-overview/

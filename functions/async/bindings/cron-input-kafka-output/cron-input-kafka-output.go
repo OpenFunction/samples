@@ -17,10 +17,11 @@ func HandleCronInput(ctx ofctx.Context, in []byte) (ofctx.Out, error) {
 		greeting, _ = json.Marshal(map[string]string{"message": "Hello"})
 	}
 
-	_, err := ctx.Send("sample", greeting)
+	_, err := ctx.Send("kafka-server", greeting)
 	if err != nil {
 		log.Printf("Error: %v\n", err)
 		return ctx.ReturnOnInternalError(), err
 	}
+
 	return ctx.ReturnOnSuccess(), nil
 }

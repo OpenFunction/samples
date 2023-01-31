@@ -1,9 +1,9 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: sample-node-async-pubsub
+  namespace: default
 spec:
-  version: v2.0.0
   image: your-docker-registry/image:v1
   # imageCredentials:
   #   name: your-docker-registry-secret
@@ -15,40 +15,21 @@ spec:
   #     url: https://github.com/OpenFunction/samples.git
   #     sourceSubPath: functions/async/mqtt-io-node
   #     revision: main
-  # app port default to "8080"
-  # port: 8080
   serving:
-    # default to knative
-    runtime: async
     annotations:
-      # Dapr annotations: https://docs.dapr.io/reference/arguments-annotations-overview/
-      # default to "grpc"
       dapr.io/app-protocol: http
-      # default to "info"
+      dapr.io/log-as-json: "false"
       dapr.io/log-level: debug
-      # default to "true"
-      dapr.io/log-as-json: 'false'
-    template:
-      containers:
-        - name: function # DO NOT change this
-          imagePullPolicy: IfNotPresent
-    params:
-      # default to FUNC_NAME value
-      FUNCTION_TARGET: tryAsync
-      DEBUG: common:*,ofn:*
-    inputs:
-      - name: mqtt-sub
-        component: mqtt-pubsub
-        topic: sub
     outputs:
-      - name: mqtt-pub
-        component: mqtt-pubsub
-        topic: pub
+      - dapr:
+          name: mqtt-pubsub
+          topic: pub
+          type: pubsub.mqtt
+    params:
+      DEBUG: common:*,ofn:*
+      FUNCTION_TARGET: tryAsync
     pubsub:
-      # Dapr MQTT PubSub: https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-mqtt/
       mqtt-pubsub:
-        type: pubsub.mqtt
-        version: v1
         metadata:
           - name: consumerID
             value: '{uuid}'
@@ -56,3 +37,16 @@ spec:
             value: tcp://admin:public@emqx:1883
           - name: qos
             value: 1
+        type: pubsub.mqtt
+        version: v1
+    template:
+      containers:
+        - imagePullPolicy: IfNotPresent
+          name: function
+    triggers:
+      dapr:
+        - name: mqtt-pubsub
+          topic: sub
+          type: pubsub.mqtt
+  version: v2.0.0
+  workloadRuntime: OCIContainer

@@ -29,7 +29,7 @@ curl http://localhost:8080
 Definition of a `Function` for `python` is shown below:
 
 ```yaml
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: python-sample
@@ -38,7 +38,6 @@ spec:
   image: "<your registry name>/sample-python-func:v1"
   imageCredentials:
     name: push-secret
-  port: 8080 # default to 8080
   build:
     builder: "openfunction/gcp-builder:v1"
     env:
@@ -55,4 +54,7 @@ spec:
       containers:
         - name: function # DO NOT change this
           imagePullPolicy: IfNotPresent 
+    triggers:
+      http:
+        port: 8080
 ```

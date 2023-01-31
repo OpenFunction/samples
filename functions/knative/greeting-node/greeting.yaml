@@ -1,4 +1,4 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: sample-node-knative
@@ -15,17 +15,17 @@ spec:
   #     url: https://github.com/OpenFunction/samples.git
   #     sourceSubPath: functions/async/mqtt-io-node
   #     revision: main
-  # app port default to "8080"
-  # port: 8080
   serving:
-    runtime: knative
     scaleOptions:
       minReplicas: 0
       maxReplicas: 2
     template:
       containers:
         - name: function # DO NOT change this
-          imagePullPolicy: IfNotPresent 
+          imagePullPolicy: IfNotPresent
+    triggers:
+      http:
+        port: 8080
     params:
       # default to "production"
       NODE_ENV: dev

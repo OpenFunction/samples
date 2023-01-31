@@ -1,4 +1,4 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: sample-node-http-trigger
@@ -15,11 +15,7 @@ spec:
   #     url: https://github.com/OpenFunction/samples.git
   #     sourceSubPath: functions/async/mqtt-io-node
   #     revision: main
-  # app port default to "8080"
-  # port: 8080
   serving:
-    # default to knative
-    runtime: knative
     scaleOptions:
       minReplicas: 0
       maxReplicas: 2
@@ -40,9 +36,9 @@ spec:
       FUNCTION_SIGNATURE_TYPE: openfunction
       DEBUG: common:*,ofn:*
     outputs:
-      - name: mqtt-output
-        component: mqtt-out
-        operation: create
+      - dapr:
+          name: mqtt-out
+          type: bindings.mqtt
     bindings:
       # Dapr MQTT Binding: https://docs.dapr.io/reference/components-reference/supported-bindings/mqtt/
       mqtt-out:
@@ -55,3 +51,6 @@ spec:
             value: tcp://admin:public@emqx:1883
           - name: topic
             value: out
+    triggers:
+      http:
+        port: 8080
