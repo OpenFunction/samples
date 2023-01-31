@@ -1,0 +1,25 @@
+apiVersion: core.openfunction.io/v1beta1
+kind: Function
+metadata:
+  name: function-sample-local
+spec:
+  version: "v2.0.0"
+  image: "openfunctiondev/sample-local-func:v1"
+  imageCredentials:
+    name: push-secret
+  port: 8080 # default to 8080
+  build:
+    builder: openfunction/builder-go:latest
+    env:
+      FUNC_NAME: "HelloWorld"
+      FUNC_CLEAR_SOURCE: "true"
+    srcRepo:
+      bundleContainer:
+        image: openfunctiondev/local-source
+      sourceSubPath: "/samples/functions/local-source"
+  serving:
+    template:
+      containers:
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent 
+    runtime: "knative"
