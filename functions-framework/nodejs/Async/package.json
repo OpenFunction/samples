@@ -1,0 +1,10 @@
+{
+    "main": "index.mjs",
+    "scripts": {
+      "start": "functions-framework --target=tryAsync"
+    },
+    "dependencies": {
+      "@openfunction/functions-framework": "^0.4.1"
+    }
+  }
+  
