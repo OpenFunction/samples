@@ -31,4 +31,4 @@ WasmEdge
 
 ## Deployment the wasm function into Kubernetes
 
-You can refer [this](https://openfunction.dev/docs/concepts/wasmedge_integration/#build-and-run-wasm-functions) guide on how to deploy this wasm function into Kubernetes.
+You can refer [this](https://openfunction.dev/docs/concepts/wasm_functions/#build-and-run-wasm-functions) guide on how to deploy this wasm function into Kubernetes.
