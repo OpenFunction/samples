@@ -13,6 +13,8 @@ spec:
     env:
       FUNC_NAME: "pathParametersFunction"
       FUNC_CLEAR_SOURCE: "true"
+#     # Use FUNC_GOPROXY to set the goproxy if failed to fetch go modules
+#     FUNC_GOPROXY: "https://goproxy.cn"
     srcRepo:
       url: "https://github.com/OpenFunction/samples.git"
       sourceSubPath: "functions/knative/path-parameters-function-go"
