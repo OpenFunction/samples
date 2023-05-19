@@ -1,53 +1,17 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: sample-node-async-bindings
+  namespace: default
 spec:
-  version: v2.0.0
   image: your-docker-registry/image:v1
-  # imageCredentials:
-  #   name: your-docker-registry-secret
-  # build:
-  #   builder: openfunction/builder-node:v2-16.13
-  #   env:
-  #     FUNC_NAME: tryKnative
-  #   srcRepo:
-  #     url: https://github.com/OpenFunction/samples.git
-  #     sourceSubPath: functions/async/mqtt-io-node
-  #     revision: main
-  # app port default to "8080"
-  # port: 8080
   serving:
-    # default to knative
-    runtime: async
     annotations:
-      # Dapr annotations: https://docs.dapr.io/reference/arguments-annotations-overview/
-      # default to "grpc"
       dapr.io/app-protocol: http
-      # default to "info"
+      dapr.io/log-as-json: "false"
       dapr.io/log-level: debug
-      # default to "true"
-      dapr.io/log-as-json: 'false'
-    template:
-      containers:
-        - name: function # DO NOT change this
-          imagePullPolicy: IfNotPresent
-    params:
-      # default to FUNC_NAME value
-      FUNCTION_TARGET: tryAsync
-      DEBUG: common:*,ofn:*
-    inputs:
-      - name: mqtt-input
-        component: mqtt-in
-    outputs:
-      - name: mqtt-output
-        component: mqtt-out
-        operation: create
     bindings:
-      # Dapr MQTT Binding: https://docs.dapr.io/reference/components-reference/supported-bindings/mqtt/
       mqtt-in:
-        type: bindings.mqtt
-        version: v1
         metadata:
           - name: consumerID
             value: '{uuid}'
@@ -55,9 +19,9 @@ spec:
             value: tcp://admin:public@emqx:1883
           - name: topic
             value: in
-      mqtt-out:
         type: bindings.mqtt
         version: v1
+      mqtt-out:
         metadata:
           - name: consumerID
             value: '{uuid}'
@@ -65,3 +29,24 @@ spec:
             value: tcp://admin:public@emqx:1883
           - name: topic
             value: out
+        type: bindings.mqtt
+        version: v1
+    outputs:
+      - dapr:
+          name: mqtt-out
+          operation: create
+          type: bindings.mqtt
+    params:
+      DEBUG: common:*,ofn:*
+      FUNCTION_TARGET: tryAsync
+    template:
+      containers:
+        - imagePullPolicy: IfNotPresent
+          name: function
+    triggers:
+      dapr:
+        - name: mqtt-in
+          type: bindings.mqtt
+  version: v2.0.0
+  workloadRuntime: OCIContainer
+

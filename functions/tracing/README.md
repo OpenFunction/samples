@@ -85,16 +85,38 @@ We provide two ways to enable the function tracing capability:
         key: "key1"
         value: "value1"
   ```
+
+> After API version v1beta2, the key changed to `data.tracing`.
   
 - Function-level configuration
 
-  You should add `plugins.tracing` in the `metadata.annotations` in Function spec.
+  With API version v1beta1, you should add `plugins.tracing` in the `metadata.annotations` in Function spec.
 
   ```yaml
   metadata:
     name: tracing-function
     annotations:
       plugins.tracing: |
+        enabled: true
+        provider:
+          name: "skywalking"
+          oapServer: "skywalking-oap:11800"
+        tags:
+          func: tracing-function
+          layer: faas
+          tag1: value1
+          tag2: value2
+        baggage:
+          key: "key1"
+          value: "value1"
+  ```
+
+  With API version v1beta2, you should set like this.
+
+  ```yaml
+  spec:
+    serving:
+      tracing: 
         enabled: true
         provider:
           name: "skywalking"

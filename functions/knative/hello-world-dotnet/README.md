@@ -8,7 +8,7 @@
 Definition of a ```Function``` for ```dotnet``` is shown below:
 
 ```yaml
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: dotnet-sample
@@ -17,7 +17,6 @@ spec:
   image: "<your registry name>/sample-dotnet-func:v1"
   imageCredentials:
     name: push-secret
-  port: 8080 # default to 8080
   build:
     builder: "openfunction/gcp-builder:v1"
     env:
@@ -28,9 +27,11 @@ spec:
       sourceSubPath: "functions/knative/hello-world-dotnet"
       revision: "release-0.6"
   serving:
-    runtime: "knative" # default to knative
     template:
       containers:
         - name: function # DO NOT change this
           imagePullPolicy: IfNotPresent 
+    triggers:
+      http:
+        port: 8080
 ```

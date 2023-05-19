@@ -1,4 +1,4 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: function-sample
@@ -7,7 +7,6 @@ spec:
   image: "openfunctiondev/sample-go-func:v1"
   imageCredentials:
     name: push-secret
-  port: 8080 # default to 8080
   build:
     builder: openfunction/builder-go:latest
     env:
@@ -24,4 +23,6 @@ spec:
       containers:
         - name: function # DO NOT change this
           imagePullPolicy: IfNotPresent 
-    runtime: "knative"
+    triggers:
+      http:
+        port: 8080

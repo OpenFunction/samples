@@ -1,62 +1,66 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: cron-input-kafka-output
-  annotations:
-    plugins: |
-      pre:
-      - plugin-custom
-      - plugin-example
-      post:
-      - plugin-custom
-      - plugin-example
+  namespace: default
 spec:
-  version: "v2.0.0"
-  image: openfunctiondev/cron-input-kafka-output:v1
-  imageCredentials:
-    name: push-secret
   build:
     builder: openfunction/builder-go:latest
     env:
-      FUNC_NAME: "HandleCronInput"
       FUNC_CLEAR_SOURCE: "true"
-#     # Use FUNC_GOPROXY to set the goproxy if failed to fetch go modules
-#     FUNC_GOPROXY: "https://goproxy.cn"
+      FUNC_NAME: HandleCronInput
+    #      # Use FUNC_GOPROXY to set the goproxy if failed to fetch go modules
+    #      FUNC_GOPROXY: "https://goproxy.cn"
     srcRepo:
-      url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/async/bindings/cron-input-kafka-output"
-      revision: "main"
+      revision: main
+      sourceSubPath: functions/async/bindings/cron-input-kafka-output
+      url: https://github.com/OpenFunction/samples.git
+  image: openfunctiondev/cron-input-kafka-output:v1
+  imageCredentials:
+    name: push-secret
   serving:
-    template:
-      containers:
-        - name: function # DO NOT change this
-          imagePullPolicy: IfNotPresent 
-    runtime: "async"
-    inputs:
-      - name: cron
-        component: cron
-    outputs:
-      - name: sample
-        component: kafka-server
-        operation: "create"
     bindings:
       cron:
+        metadata:
+          - name: schedule
+            value: '@every 2s'
         type: bindings.cron
         version: v1
-        metadata:
-        - name: schedule
-          value: "@every 2s"
       kafka-server:
+        ignoreErrors: false
+        initTimeout: ""
+        metadata:
+          - name: brokers
+            value: kafka-server-kafka-brokers:9092
+          - name: topics
+            value: sample-topic
+          - name: consumerGroup
+            value: bindings-with-output
+          - name: publishTopic
+            value: sample-topic
+          - name: authRequired
+            value: "false"
         type: bindings.kafka
         version: v1
-        metadata:
-        - name: brokers
-          value: "kafka-server-kafka-brokers:9092"
-        - name: topics
-          value: "sample-topic"
-        - name: consumerGroup
-          value: "bindings-with-output"
-        - name: publishTopic
-          value: "sample-topic"
-        - name: authRequired
-          value: "false"
+    hooks:
+      post:
+        - plugin-custom
+        - plugin-example
+      pre:
+        - plugin-example
+        - plugin-custom
+    outputs:
+      - dapr:
+          name: kafka-server
+          operation: create
+          type: bindings.kafka
+    template:
+      containers:
+        - imagePullPolicy: IfNotPresent
+          name: function
+    triggers:
+      dapr:
+        - name: cron
+          type: bindings.cron
+  version: v2.0.0
+  workloadRuntime: OCIContainer

@@ -1,36 +1,39 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: cron-input
+  namespace: default
 spec:
-  version: "v2.0.0"
-  image: openfunctiondev/cron-input:v1
-  imageCredentials:
-    name: push-secret
   build:
     builder: openfunction/builder-go:latest
     env:
-      FUNC_NAME: "HandleCronInput"
       FUNC_CLEAR_SOURCE: "true"
-#     # Use FUNC_GOPROXY to set the goproxy if failed to fetch go modules
-#     FUNC_GOPROXY: "https://goproxy.cn"
+      FUNC_NAME: HandleCronInput
+    #      # Use FUNC_GOPROXY to set the goproxy if failed to fetch go modules
+    #      FUNC_GOPROXY: "https://goproxy.cn"
     srcRepo:
-      url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/async/bindings/cron-input"
-      revision: "main"
+      revision: main
+      sourceSubPath: functions/async/bindings/cron-input
+      url: https://github.com/OpenFunction/samples.git
+  image: openfunctiondev/cron-input:v1
+  imageCredentials:
+    name: push-secret
   serving:
-    template:
-      containers:
-        - name: function # DO NOT change this
-          imagePullPolicy: IfNotPresent 
-    runtime: "async"
-    inputs:
-      - name: input
-        component: cron
     bindings:
       cron:
+        metadata:
+          - name: schedule
+            value: '@every 2s'
         type: bindings.cron
         version: v1
-        metadata:
-        - name: schedule
-          value: "@every 2s"
+    template:
+      containers:
+        - imagePullPolicy: IfNotPresent
+          name: function
+          resources: { }
+    triggers:
+      dapr:
+        - name: cron
+          type: bindings.cron
+  version: v2.0.0
+  workloadRuntime: OCIContainer

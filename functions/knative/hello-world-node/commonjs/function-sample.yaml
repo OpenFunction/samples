@@ -1,4 +1,4 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: node-sample
@@ -7,7 +7,6 @@ spec:
   image: "<your registry name>/sample-node-func:v1"
   imageCredentials:
     name: push-secret
-  port: 8080 # default to 8080
   build:
     builder: "openfunction/builder-node:latest"
     env:
@@ -18,8 +17,10 @@ spec:
       sourceSubPath: "functions/knative/hello-world-node/commonjs"
       revision: "main"
   serving:
-    runtime: "knative" # default to knative
     template:
       containers:
         - name: function # DO NOT change this
           imagePullPolicy: IfNotPresent 
+    triggers:
+      http:
+        port: 8080

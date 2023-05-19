@@ -1,75 +1,78 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: kafka-input-java
-  annotations:
-    plugins: |
-      pre:
-      - dev.openfunction.samples.plugins.ExamplePlugin
-      post:
-      - dev.openfunction.samples.plugins.ExamplePlugin
+  namespace: default
 spec:
-  version: "v1.0.0"
-  image: openfunctiondev/kafka-input-java:v1
-  imageCredentials:
-    name: push-secret
   build:
     builder: openfunction/builder-java:v2-18
     env:
-      FUNC_NAME: "dev.openfunction.samples.OpenFunctionImpl"
       FUNC_CLEAR_SOURCE: "true"
+      FUNC_NAME: dev.openfunction.samples.OpenFunctionImpl
     srcRepo:
-      url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/knative/java"
-      revision: "main"
+      revision: main
+      sourceSubPath: functions/knative/java
+      url: https://github.com/OpenFunction/samples.git
+  image: openfunctiondev/kafka-input-java:v1
+  imageCredentials:
+    name: push-secret
   serving:
-    runtime: async
+    bindings:
+      target-topic:
+        ignoreErrors: false
+        initTimeout: ""
+        metadata:
+          - name: brokers
+            value: kafka-server-kafka-brokers:9092
+          - name: topics
+            value: sample-topic
+          - name: consumerGroup
+            value: kafka-input
+          - name: publishTopic
+            value: sample-topic
+          - name: authRequired
+            value: "false"
+        type: bindings.kafka
+        version: v1
+    hooks:
+      policy: Override
+      post:
+        - dev.openfunction.samples.plugins.ExamplePlugin
+      pre:
+        - dev.openfunction.samples.plugins.ExamplePlugin
     scaleOptions:
-      minReplicas: 0
-      maxReplicas: 10
       keda:
         scaledObject:
-          pollingInterval: 15
-          minReplicaCount: 0
-          maxReplicaCount: 10
-          cooldownPeriod: 60
           advanced:
             horizontalPodAutoscalerConfig:
               behavior:
                 scaleDown:
-                  stabilizationWindowSeconds: 45
                   policies:
-                    - type: Percent
+                    - periodSeconds: 15
+                      type: Percent
                       value: 50
-                      periodSeconds: 15
+                  stabilizationWindowSeconds: 45
                 scaleUp:
                   stabilizationWindowSeconds: 0
-    triggers:
-      - type: kafka
-        metadata:
-          topic: sample-topic
-          bootstrapServers: kafka-server-kafka-brokers.default.svc:9092
-          consumerGroup: kafka-input
-          lagThreshold: "20"
-    inputs:
-      - name: greeting
-        component: target-topic
-    bindings:
-      target-topic:
-        type: bindings.kafka
-        version: v1
-        metadata:
-          - name: brokers
-            value: "kafka-server-kafka-brokers:9092"
-          - name: topics
-            value: "sample-topic"
-          - name: consumerGroup
-            value: "kafka-input"
-          - name: publishTopic
-            value: "sample-topic"
-          - name: authRequired
-            value: "false"
+          cooldownPeriod: 60
+          pollingInterval: 15
+        triggers:
+          - metadata:
+              bootstrapServers: kafka-server-kafka-brokers.default.svc:9092
+              consumerGroup: kafka-input
+              lagThreshold: "20"
+              topic: sample-topic
+            type: kafka
+      maxReplicas: 10
+      minReplicas: 0
     template:
       containers:
-        - name: function # DO NOT change this
-          imagePullPolicy: IfNotPresent 
+        - imagePullPolicy: IfNotPresent
+          name: function
+    triggers:
+      dapr:
+        - name: target-topic
+          type: bindings.kafka
+    workloadType: Deployment
+  version: v1.0.0
+  workloadRuntime: OCIContainer

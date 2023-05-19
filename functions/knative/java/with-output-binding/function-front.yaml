@@ -1,19 +1,12 @@
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: function-front
-  annotations:
-    plugins: |
-      pre:
-      - dev.openfunction.samples.plugins.ExamplePlugin
-      post:
-      - dev.openfunction.samples.plugins.ExamplePlugin
 spec:
   version: "v1.0.0"
   image: "openfunctiondev/sample-knative-dapr-java:v1"
   imageCredentials:
     name: push-secret
-  port: 8080 # default to 8080
   build:
     builder: openfunction/builder-java:v2-18
     env:
@@ -24,14 +17,19 @@ spec:
       sourceSubPath: "functions/knative/java"
       revision: "main"
   serving:
+    hooks:
+      post:
+        - dev.openfunction.samples.plugins.ExamplePlugin
+      pre:
+        - dev.openfunction.samples.plugins.ExamplePlugin
     scaleOptions:
       minReplicas: 0
       maxReplicas: 5
-    runtime: knative
     outputs:
-      - name: target
-        component: kafka-server
-        operation: "create"
+      - dapr:
+          name: target
+          operation: "create"
+          type: bindings.kafka
     bindings:
       kafka-server:
         type: bindings.kafka
@@ -51,3 +49,6 @@ spec:
       containers:
         - name: function # DO NOT change this
           imagePullPolicy: IfNotPresent 
+    triggers:
+      http:
+        port: 8080
