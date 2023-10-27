@@ -13,6 +13,15 @@ Build the function locally
 pack build python-sample --builder openfunction/gcp-builder:v1 --env GOOGLE_FUNCTION_TARGET=hello_world
 ```
 
+The builder image used above may not be suitable for the MacOS m2 chip (Arm) architecture. For solutions, please refer to [Dockerfile](./Dockerfile) and then you can use the newly built builder image like:
+```sh
+pack build python-sample --builder <your dockerhub account>/openfunction-gcp-builder:v1 --env GOOGLE_FUNCTION_TARGET=hello_world
+```
+If it is just for research use, you can also use the image created by @ToviHe `hetovi1997/openfunction-gcp-builder:v1`
+
+
+
+
 Run the function
 
 ```sh
