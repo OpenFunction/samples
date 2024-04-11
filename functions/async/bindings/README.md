@@ -17,7 +17,7 @@ We will use the sample in the `cron-input` directory, which will be triggered by
 Modify the `spec.image` field in `cron-input/cron-input.yaml` to your own container registry address:
 
 ```yaml
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: cron-input
@@ -59,7 +59,7 @@ We will use the sample in the `cron-input-kafka-output` directory, which will be
 Modify the `spec.image` field in `cron-input-kafka-output/cron-input-kafka-output.yaml` to your own container registry address:
 
 ```yaml
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: cron-input-kafka-output

@@ -8,7 +8,7 @@
 You can define a common JavaScript Function as below:
 
 ```yaml
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: node-sample

@@ -17,7 +17,7 @@ Follow [this guide](https://openfunction.dev/docs/getting-started/quickstarts/pr
 For sample function below, modify the ``spec.image`` field in ``sample-java-app.yaml`` to your own container registry address:
 
   ```yaml
-  apiVersion: core.openfunction.io/v1beta1
+  apiVersion: core.openfunction.io/v1beta2
   kind: Function
   metadata:
     name: sample-java-app

@@ -15,7 +15,7 @@ The `cron-input-kafka-output-java` function will be triggered by Dapr's `binding
 Modify the `spec.image` field in `cron-input-kafka-output.yaml` to your own container registry address:
 
   ```yaml
-  apiVersion: core.openfunction.io/v1beta1
+  apiVersion: core.openfunction.io/v1beta2
   kind: Function
   metadata:
     name: cron-input-kafka-output-java

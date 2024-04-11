@@ -59,7 +59,7 @@ kubectl apply -f ../../async/bindings/kafka-input/kafka-input.yaml
 > The function plugin mechanism is also demonstrated in `function-front`, and you can observe the following configuration in the definition of `function-front`.
 >
 > ```yaml
-> apiVersion: core.openfunction.io/v1beta1
+> apiVersion: core.openfunction.io/v1beta2
 > kind: Function
 > metadata:
 >   name: function-front

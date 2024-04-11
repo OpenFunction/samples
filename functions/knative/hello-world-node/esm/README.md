@@ -12,7 +12,7 @@ OpenFunction Nodejs Functions Framework supports loading your function code as a
 You can define a ESM JavaScript Function as below:
 
 ```yaml
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: node-sample

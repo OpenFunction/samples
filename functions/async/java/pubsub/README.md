@@ -21,7 +21,7 @@ Follow [this guide](../../pubsub/README.md#Build-and-deploy-Producer) to deploy 
 Modify the ``spec.image`` field in `function-subscribe.yaml` to your own container registry address:
 
 ```yaml
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: autoscaling-subscriber-java

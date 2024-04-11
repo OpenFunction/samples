@@ -51,7 +51,7 @@ You can create this secret by editing the ``REGISTRY_SERVER``, ``REGISTRY_USER``
    For sample function below, modify the ``spec.image`` field in ``function-sample.yaml`` to your own container registry address:
 
     ```yaml
-    apiVersion: core.openfunction.io/v1beta1
+    apiVersion: core.openfunction.io/v1beta2
     kind: Function
     metadata:
       name: function-sample

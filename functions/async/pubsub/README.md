@@ -54,7 +54,7 @@ kubectl apply -f deploy.yaml
 Modify the ``spec.image`` field in `subscriber/function-subscribe.yaml` to your own container registry address:
 
 ```yaml
-apiVersion: core.openfunction.io/v1beta1
+apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
   name: autoscaling-subscriber
